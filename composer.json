@@ -1,0 +1,14 @@
+{
+    "name": "brenno-duarte/steroids-for-php",
+    "autoload": {
+        "psr-4": {
+            "PHPPeclPolyfill\\": "extensions/"
+        },
+        "files": [
+            "autoload-functions.php"
+        ]
+    },
+    "require": {
+        "paragonie/sodium_compat": "^1.20"
+    }
+}
