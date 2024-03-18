@@ -163,7 +163,7 @@ function autoload_files(string $directory)
 }
 
 /**
- * load an object with data in json format
+ * Load an object with data in json format
  *
  * @param mixed $object
  * @param string $json
