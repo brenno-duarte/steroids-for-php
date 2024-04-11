@@ -174,7 +174,7 @@ function load_object_json(mixed $object, string $json): mixed
 {
     $dcod = json_decode($json);
     $prop = get_object_vars($dcod);
-    
+
     foreach ($prop as $key => $lock) {
         if (property_exists($object,  $key)) {
             if (is_object($dcod->$key)) {
@@ -186,4 +186,21 @@ function load_object_json(mixed $object, string $json): mixed
     }
 
     return $object;
+}
+
+/**
+ * Return period in hours, minutes or seconds using microtime function
+ *
+ * @param float $endtime
+ * @param float $starttime
+ * 
+ * @return mixed
+ */
+function microtime_period(float $endtime, float $starttime): mixed
+{
+    $duration = $endtime - $starttime;
+    $hours = (int) ($duration / 60 / 60);
+    $minutes = (int) ($duration / 60) - $hours * 60;
+    $seconds = (int) $duration - $hours * 60 * 60 - $minutes * 60;
+    return ($hours == 0 ? "00" : $hours) . ":" . ($minutes == 0 ? "00" : ($minutes < 10 ? "0" . $minutes : $minutes)) . ":" . ($seconds == 0 ? "00" : ($seconds < 10 ? "0" . $seconds : $seconds));
 }

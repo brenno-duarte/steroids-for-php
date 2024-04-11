@@ -1,2 +1,5 @@
 docs/
+tests-arrays.php
+tests-mb.php
+tests-reflection.php
 README.md

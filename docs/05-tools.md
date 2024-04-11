@@ -23,3 +23,9 @@ autoload_files(string $directory)
 ```php
 load_object_json(mixed $object, string $json): mixed
 ```
+
+- Return period in hours, minutes or seconds using microtime function
+
+```php
+microtime_period(float $endtime, float $starttime): mixed
+```
