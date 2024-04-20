@@ -2,14 +2,14 @@
 
 Steroids for PHP has functions related to:
 
-- [Arrays](02-arrays.md)
-- [Strings](03-strings.md)
-- [Multibyte functions](04-multibyte.md)
-- [Tools](05-tools.md)
-- [Reflection functions](06-reflection-functions.md)
-- [Some rejected RFC](07-rejected-rfc.md)
-- [UTF-8](08-utf8.md)
-- [Variable handling functions](09-variable-handling-functions.md)
+- [Arrays](01-arrays.md)
+- [Strings](02-strings.md)
+- [Multibyte functions](03-multibyte.md)
+- [Tools](04-tools.md)
+- [Reflection functions](05-reflection-functions.md)
+- [Some rejected RFC](06-rejected-rfc.md)
+- [UTF-8](07-utf8.md)
+- [Variable handling functions](08-variable-handling-functions.md)
 
 Some polyfills are included if you don't want to install an extension using PECL.
 

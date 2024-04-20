@@ -114,12 +114,6 @@ array_value_empty($array): bool
 array_value_count(mixed $match, array $array): int
 ```
 
-- Returns the first value from an array
-
-```php
-array_value_first(array $array): mixed
-```
-
 - Returns the last value from an array
 
 ```php

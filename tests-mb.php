@@ -126,8 +126,7 @@ comments: Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.
 ...
 EOD;
 
-$parsed = yaml_parse($yaml);
-//var_dump($parsed);
+//var_dump(yaml_parse($yaml));
 
 //echo wrap_implode(['line','by','line'], '<b>', '</b>', '<br>  ');
 
@@ -189,4 +188,4 @@ $location = 'trée';
 $format = 'There are %d monkeys in the %s';
 //echo mb_sprintf($format, $num, $location);
 
-print mb_vsprintf("%04d-%02d-%02d", explode('-', '1988-8-1'));
+//print mb_vsprintf("%04d-%02d-%02d", explode('-', '1988-8-1'));
