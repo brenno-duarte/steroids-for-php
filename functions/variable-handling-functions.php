@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (!function_exists('print_r_browser')) {
     /**
      * Prints human-readable information about a variable in browser
@@ -13,53 +15,6 @@ if (!function_exists('print_r_browser')) {
         echo '<pre>';
         print_r($value);
         echo  '</pre>';
-    }
-}
-
-if (!function_exists('is_set')) {
-    /**
-     * Checks whether variable names are set within the global space or they exists as an key and return if they are set (even if their values are null)
-     * 
-     * @param string $var_name name of the first variable to check
-     * @param mixed
-     *   optional array to check for key (if null, checks from $GLOBALS) OR
-     *   other variable names to check OR
-     *   other variable names and their associated arrays to their right (use null for global variables, optional if its the last parameter)
-     */
-    function is_set(string $var_name, mixed ...$args): bool
-    {
-        $vars[$var_name] = null;
-
-        if (array_key_exists(0, $args)) {
-            if (is_array($args[0])) {
-                $vars[$var_name] = $args[0];
-            } elseif (is_string($args[0])) {
-                goto main;
-            }
-
-            unset($args[0]);
-        }
-
-        main:
-
-        if ($args) {
-            $args = array_reverse($args);
-            $cur_array = null;
-
-            array_walk($args, function ($value) use (&$cur_array, &$vars): void {
-                if (!is_string($value)) {
-                    $cur_array = $value;
-                } else {
-                    $vars[$value] = $cur_array;
-                }
-            });
-        }
-
-        foreach ($vars as $name => $array) {
-            if (!array_key_exists($name, $array ?? $GLOBALS)) return false;
-        }
-
-        return true;
     }
 }
 
@@ -280,10 +235,10 @@ if (!function_exists('html_dump')) {
                 echo "$indent$var_name <span style='color:#666666'>$type</span><br>$indent(<br>";
                 foreach ($avar as $name => $value) html_dump($value, "$name", $indent . $do_dump_indent, $reference);
                 echo "$indent)<br>";
-            } elseif (is_int($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen($avar) . ")</span> $type_color" . htmlentities($avar) . "</span><br>";
+            } elseif (is_int($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen((string)$avar) . ")</span> $type_color" . htmlentities((string)$avar) . "</span><br>";
             elseif (is_string($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen($avar) . ")</span> $type_color\"" . htmlentities($avar) . "\"</span><br>";
-            elseif (is_float($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen($avar) . ")</span> $type_color" . htmlentities($avar) . "</span><br>";
-            elseif (is_bool($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen($avar) . ")</span> $type_color" . ($avar == 1 ? "TRUE" : "FALSE") . "</span><br>";
+            elseif (is_float($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen((string)$avar) . ")</span> $type_color" . htmlentities((string)$avar) . "</span><br>";
+            elseif (is_bool($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen((string)$avar) . ")</span> $type_color" . ($avar == 1 ? "TRUE" : "FALSE") . "</span><br>";
             elseif (is_null($avar)) echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen('') . ")</span> {$type_color}NULL</span><br>";
             else echo "$indent$var_name = <span style='color:#666666'>$type(" . strlen($avar) . ")</span> " . htmlentities($avar) . "<br>";
 

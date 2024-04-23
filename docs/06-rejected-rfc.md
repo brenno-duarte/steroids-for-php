@@ -1,4 +1,4 @@
-# Rejected RFC
+# Rejected RFC functions
 
 - [ifsetor](https://wiki.php.net/rfc/ifsetor)
 

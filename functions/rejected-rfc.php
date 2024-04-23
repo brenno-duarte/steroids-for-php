@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @see https://wiki.php.net/rfc/ifsetor
  *

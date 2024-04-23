@@ -1,4 +1,4 @@
-# Arrays
+# Array functions
 
 ## Associative arrays
 
@@ -184,6 +184,40 @@ array_change_key_case_unicode(array $arr, int $c = CASE_LOWER): array
 array_change_value_case(array $array, int $case = CASE_LOWER): array
 ```
 
+## Array contains
+
+- Check if an array contains all values in a set.
+
+_This function works as expected with nested arrays or an array with objects._
+
+```php
+array_contains_all(array $array, array $subset, boolean $strict = false): bool
+```
+
+- Check if an array contains all values in a set with index check.
+
+_This function works as expected with nested arrays or an array with objects._
+
+```php
+array_contains_all_assoc(array $array, array $subset, boolean $strict = false): bool
+```
+
+- Check if an array contains any value in a set.
+
+_This function works as expected with nested arrays or an array with objects._
+
+```php
+array_contains_any(array $array, array $subset, boolean $strict = false): bool
+```
+
+- Check if an array contains any value in a set with index check.
+
+_This function works as expected with nested arrays or an array with objects._
+
+```php
+array_contains_any_assoc(array $array, array $subset, boolean $strict = false): bool
+```
+
 ## Others functions for arrays
 
 - Checks if multiple keys exist in an array
@@ -198,10 +232,44 @@ array_many_keys_exists(array $array, array|string $keys): bool
 array_splice_preserve_keys(array $array, int $offset, ?int $length = null): array
 ```
 
-- Recursively reduces deep arrays to single-dimensional arrays
+- Flatten a nested associative array, concatenating the keys.
 
 ```php
-array_flatten(array $array, int $preserve_keys = 1, array $new_array = []): array
+array_flatten(string $glue, array $array): array
+```
+
+**Example**
+
+```php
+$values = array_flatten('.', [
+    'animal' => [
+        'mammel' => [
+            'ape',
+            'bear'
+        ],
+        'reptile' => 'chameleon'
+    ],
+    'colors' => [
+        'red' => 60,
+        'green' => 100,
+        'blue' => 0
+    ]
+]);
+```
+
+Will become
+
+```php
+[
+    'animal.mammel' => [
+        'ape',
+        'bear'
+    ],
+    'animal.reptile' => 'chameleon',
+    'colors.red' => 60,
+    'colors.green' => 100,
+    'colors.blue' => 0
+]
 ```
 
 - This function simplifies removal of a value from an array, when the index is not known.
@@ -214,12 +282,6 @@ array_delete(array $array, string $value, bool $strict = true): array
 
 ```php
 array_key_delete(array $array, mixed $key, bool $strict = true): array
-```
-
-- If you only know a part of a value in an array and want to know the complete value
-
-```php
-array_find(string $needle, array $haystack): mixed
 ```
 
 - Flip an array and group the elements by value
@@ -250,4 +312,47 @@ array_preg_diff(string $needle, string $pattern): string
 
 ```php
 array_encode_utf8(array $array, string $source_encoding): array
+```
+
+- Join an array, using the 'and' parameter as glue the last two items.
+
+```php
+array_join_pretty(string $glue, string $and, array $array);
+```
+
+**Example**
+
+```php
+echo "A task to " . array_join_pretty(", ", " and ", $chores) . " has been created.", PHP_EOL;
+echo array_join_pretty(", ", " or ", $names) . " may pick up this task.", PHP_EOL;
+```
+
+- Return an array with only the specified keys.
+
+```php
+array_only(array $array, array $keys): array
+```
+
+- Return an array without the specified keys.
+
+```php
+array_without(array $array, array $keys): array
+```
+
+- Find an element of an array using a callback function. Returns the value or FALSE if no element was found.
+
+```php
+array_find(array $array, callable $callback, int $flag = 0): mixed
+```
+
+Flag determining what arguments are sent to callback:
+
+* `ARRAY_FILTER_USE_KEY` - pass key as the only argument to callback instead of the value
+* `ARRAY_FILTER_USE_BOTH` - pass both value and key as arguments to callback instead of the value
+* Default is `0` which will pass value as the only argument to callback instead.
+
+- Find a key of an array using a callback function. Returns the key or FALSE if no element was found.
+
+```php
+array_find_key(array $array, callable $callback, int $flag = 0): mixed
 ```

@@ -153,6 +153,7 @@ function cube($n)
 {
     return ($n * $n * $n);
 }
+
 $a = [
     ['first' => 1, 'second' => 2, 'third' => 3, 'fourth' => 4, 'fifth' => 5],
     ['first' => 6, 'second' => 7, 'third' => 8, 'fourth' => 9, 'fifth' => 10]
@@ -235,13 +236,13 @@ $records = array(
 //print_r(array_column_recursive($records, 'first_name'));
 //print_r(array_column_group_key($records, 'first_name', 'company_id'));
 
-$fruit = array(
+$fruit = [
     'orange' => 'orange',
     'lemon' => 'yellow',
     'lime' => 'green',
     'grape' => 'purple',
     'cherry' => 'red',
-);
+];
 
 // Replace lemon and lime with apple
 /* var_dump(array_splice_assoc($fruit, 'lemon', 'grape', ['apple' => 'red']));
@@ -250,7 +251,7 @@ $fruit = array(
 var_dump(array_splice_assoc($fruit, 'cherry', 1, ['strawberry' => 'red'])); */
 
 //var_dump(array_splice_preserve_keys($array_test, 0, 1));
-
 //print_r(array_search_recursive(['first_name' => 'John'], $records));
-
 //print_r(array_encode_utf8($arr_unicode, 'ISO-8859-1'));
+
+print_r(array_tree($array_test));

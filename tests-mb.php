@@ -189,3 +189,5 @@ $format = 'There are %d monkeys in the %s';
 //echo mb_sprintf($format, $num, $location);
 
 //print mb_vsprintf("%04d-%02d-%02d", explode('-', '1988-8-1'));
+
+print_r(bytes2human("17179869184"));

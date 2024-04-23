@@ -6,12 +6,6 @@
 print_r_browser($value): void
 ```
 
-- Checks whether variable names are set within the global space or they exists as an key and return if they are set (even if their values are null)
-
-```php
-is_set(string $var_name, mixed ...$args): bool
-```
-
 - Check if an array has some keys
 
 ```php
