@@ -89,7 +89,7 @@ if (!function_exists('rgb2hex')) {
             if (preg_match_all('/\(([^\)]*)\)/', $r, $matches) && isset($matches[1][0])) {
                 list($r, $g, $b) = explode(',', $matches[1][0]);
             } else {
-                return false;
+                return "";
             }
         }
 
@@ -158,21 +158,14 @@ if (!function_exists('number_to_word')) {
             1000000000000000000 => 'quintillion',
         ];
 
-        if (!is_numeric($number)) {
-            throw new \Exception('NaN');
-        }
+        if (!is_numeric($number)) throw new \Exception('NaN');
 
         if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) {
             throw new \Exception('numberToWord only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX);
         }
 
-        if ($number < 0) {
-            return $negative . number_to_word(abs($number));
-        }
-
-        if (strpos((string)$number, '.') !== false) {
-            list($number, $fraction) = explode('.', (string)$number);
-        }
+        if ($number < 0) return $negative . number_to_word(abs($number));
+        if (strpos((string)$number, '.') !== false) list($number, $fraction) = explode('.', (string)$number);
 
         switch (true) {
             case $number < 21:
@@ -255,9 +248,7 @@ if (!function_exists('seconds_to_text')) {
         foreach ($periods as $name => $dur) {
             $div = floor($seconds / $dur);
 
-            if ($div == 0) {
-                continue;
-            }
+            if ($div == 0) continue;
 
             if ($div == 1) {
                 $parts[] = ($returnAsWords ? number_to_word((int)$div) : $div) . ' ' . $name;
@@ -269,11 +260,7 @@ if (!function_exists('seconds_to_text')) {
         }
 
         $last = array_pop($parts);
-
-        if (empty($parts)) {
-            return $last;
-        }
-
+        if (empty($parts)) return $last;
         return implode(', ', $parts) . ' and ' . $last;
     }
 }

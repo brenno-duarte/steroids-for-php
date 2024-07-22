@@ -42,6 +42,24 @@ mb_strrev(string $string, string $encoding = 'UTF-8'): string
 mb_str_pad(string $input, int $pad_length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, string $encoding = 'UTF-8'): string
 ```
 
+- Translate characters or replace substrings
+
+```php
+mb_strtr(string $str, ?string $from = null, ?string $to = null): string
+```
+
+- Return information about words used in a string
+
+```php
+mb_str_word_count(string $str, int $format = 2, ?string $charlist = null): mixed
+```
+
+- Randomly shuffles a string
+
+```php
+mb_str_shuffle(string $string): string
+```
+
 - Returns information about characters used in a string
 
 ```php
@@ -90,8 +108,14 @@ mb_htmlentities(string $string): string
 mb_sprintf(string $format): string
 ```
 
-- Return a formatted string. Supported: Sign, padding, alignment, width and precision. Not supported: Argument swapping.
+- Return a formatted string. Supported: Sign, padding, alignment, width and precision. Not supported: Argument swapping
 
 ```php
 mb_vsprintf(string $format, array $argv, ?string $encoding = null): string
+```
+
+- Split a string into smaller chunks
+
+```php
+mb_chunk_split(string $str, int $length = 76, string $separator = "\r\n"): string
 ```

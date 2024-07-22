@@ -172,7 +172,7 @@ if (!function_exists('array_add')) {
      * @see https://wiki.php.net/rfc/array_delete
      *
      * @param array $array
-     * @param string $value
+     * @param mixed $value
      * @param bool $strict
      * 
      * @return array|false
@@ -214,12 +214,12 @@ if (!function_exists('array_preg_diff')) {
     /**
      * List all the files and folders you want to exclude in a project directory
      *
-     * @param mixed $needle
-     * @param mixed $pattern
+     * @param array $needle
+     * @param string $pattern
      * 
-     * @return string
+     * @return mixed
      */
-    function array_preg_diff(string $needle, string $pattern): string
+    function array_preg_diff(array $needle, string $pattern): array
     {
         foreach ($needle as $i => $v) {
             if (preg_match($pattern, $v)) {
@@ -240,7 +240,7 @@ if (!function_exists('array_tree')) {
      * 
      * @return string
      */
-    function array_tree(array $array, int $index = 0): string
+    function array_tree(mixed $array, int $index = 0): ?string
     {
         $tree = null;
         $space = "";
@@ -251,9 +251,11 @@ if (!function_exists('array_tree')) {
 
         $index++;
 
-        foreach ($array as $x => $tmp) {
-            $tree .= $space . "$x => $tmp\n";
-            array_tree($tmp, $index);
+        if (is_array($array)) {
+            foreach ($array as $x => $tmp) {
+                $tree .= $space . "$x => $tmp\n";
+                array_tree($tmp, $index);
+            }
         }
 
         return $tree;
@@ -405,12 +407,13 @@ if (!function_exists('array_join_pretty')) {
     /**
      * Join an array, using the 'and' parameter as glue the last two items.
      *
+     * @param array  $array
      * @param string $glue
      * @param string $and
-     * @param array  $array
+     * 
      * @return string
      */
-    function array_join_pretty(string $glue, string $and, array $array): string
+    function array_join_pretty(array $array, string $glue, string $and): string
     {
         $last = (string)array_pop($array);
         return (count($array) === 0 ? "" : join($glue, $array) . $and) . $last;

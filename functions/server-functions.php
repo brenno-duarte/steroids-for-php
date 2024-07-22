@@ -43,9 +43,7 @@ if (!function_exists('get_current_url')) {
     {
         $url = 'http://';
 
-        if (is_https()) {
-            $url = 'https://';
-        }
+        if (is_https()) $url = 'https://';
 
         if (isset($_SERVER['PHP_AUTH_USER'])) {
             $url .= $_SERVER['PHP_AUTH_USER'];
@@ -55,20 +53,12 @@ if (!function_exists('get_current_url')) {
             $url .= '@';
         }
 
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $url .= $_SERVER['HTTP_HOST'];
-        }
-
-        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
-            $url .= ':' . $_SERVER['SERVER_PORT'];
-        }
+        if (isset($_SERVER['HTTP_HOST'])) $url .= $_SERVER['HTTP_HOST'];
+        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) $url .= ':' . $_SERVER['SERVER_PORT'];
 
         if (!isset($_SERVER['REQUEST_URI'])) {
             $url .= substr($_SERVER['PHP_SELF'], 1);
-            if (isset($_SERVER['QUERY_STRING'])) {
-                $url .= '?' . $_SERVER['QUERY_STRING'];
-            }
-
+            if (isset($_SERVER['QUERY_STRING'])) $url .= '?' . $_SERVER['QUERY_STRING'];
             return $url;
         }
 
@@ -113,6 +103,6 @@ if (!function_exists('get_client_ip')) {
             }
         }
 
-        return false;
+        return "";
     }
 }

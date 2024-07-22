@@ -26,11 +26,11 @@ if (!function_exists('mb_str_contains')) {
      *
      * @param string $haystack
      * @param string $needle
-     * @param null $encoding
+     * @param string|null $encoding
      * 
      * @return bool
      */
-    function mb_str_contains(string $haystack, string $needle, $encoding = null): bool
+    function mb_str_contains(string $haystack, string $needle, ?string $encoding = null): bool
     {
         return $needle === '' || mb_substr_count($haystack, $needle, (empty($encoding) ? mb_internal_encoding() : $encoding)) > 0;
     }
@@ -149,6 +149,93 @@ if (!function_exists('mb_str_pad')) {
         }
 
         return str_pad($input, strlen($input) - mb_strlen($input, $encoding) + $pad_length, $pad_string, $pad_type);
+    }
+}
+
+if (!function_exists('mb_strtr')) {
+    /**
+     * Translate characters or replace substrings
+     *
+     * @param mixed $str
+     * @param string|null $a
+     * @param string|null $b
+     * 
+     * @return string
+     */
+    function mb_strtr(string $str, ?string $from = null, ?string $to = null): string
+    {
+        $translate = $from;
+
+        if (!is_array($from) && !is_array($to)) {
+            $a = (array) $from;
+            $b = (array) $to;
+
+            $translate = array_combine(
+                array_values($a),
+                array_values($b)
+            );
+        }
+
+        // again weird, but accepts an array in this case
+        return strtr($str, $translate);
+    }
+}
+
+if (!function_exists('mb_str_word_count')) {
+    /**
+     * Return information about words used in a string
+     *
+     * @param string $str
+     * @param int $format
+     * @param string|null $charlist
+     * 
+     * @return mixed
+     */
+    function mb_str_word_count(string $str, int $format = 2, ?string $charlist = null): mixed
+    {
+        if ($format < 0 || $format > 2) {
+            throw new InvalidArgumentException('Argument #2 ($format) must be a valid format value');
+        }
+
+        if ($charlist === null) {
+            $charlist = "";
+        }
+
+        $count = preg_match_all('#[\p{L}\p{N}][\p{L}\p{N}\'' . $charlist . ']*#u', $str, $matches, $format === 2 ? PREG_OFFSET_CAPTURE : PREG_PATTERN_ORDER);
+
+        if ($format === 0) {
+            return $count;
+        }
+
+        $matches = $matches[0] ?? [];
+
+        if ($format === 2) {
+            $result = [];
+
+            foreach ($matches as $match) {
+                $result[$match[1]] = $match[0];
+            }
+
+            return $result;
+        }
+
+        return $matches;
+    }
+}
+
+if (!function_exists('mb_str_shuffle')) {
+    /**
+     * Randomly shuffles a string
+     *
+     * @param string $string
+     * 
+     * @return string
+     */
+    function mb_str_shuffle(string $string): string
+    {
+        $tmp = preg_split("//u", $string, -1, PREG_SPLIT_NO_EMPTY);
+        shuffle($tmp);
+        return join("", $tmp);
     }
 }
 
@@ -455,9 +542,9 @@ if (!function_exists('mb_vsprintf')) {
                         if ($filler === '')
                             $filler = ' ';
                         if ($align == '-')
-                            $padding_post = str_repeat($filler, $size - $arglen);
+                            $padding_post = str_repeat($filler, (int)$size - $arglen);
                         else
-                            $padding_pre = str_repeat($filler, $size - $arglen);
+                            $padding_pre = str_repeat($filler, (int)$size - $arglen);
                     }
                 }
 
@@ -473,5 +560,32 @@ if (!function_exists('mb_vsprintf')) {
         // Convert new format back from UTF-8 to the original encoding
         $newformat = mb_convert_encoding($newformat, $encoding, 'UTF-8');
         return vsprintf($newformat, $newargv);
+    }
+}
+
+if (!function_exists('mb_chunk_split')) {
+    /**
+     * Split a string into smaller chunks
+     *
+     * @param string $str
+     * @param int $length
+     * @param string $separator
+     * 
+     * @return string
+     */
+    function mb_chunk_split(string $str, int $length = 76, string $separator = "\r\n"): string
+    {
+        $tmp = array_chunk(
+            preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY),
+            $length
+        );
+
+        $str = "";
+
+        foreach ($tmp as $t) {
+            $str .= join("", $t) . $separator;
+        }
+
+        return $str;
     }
 }

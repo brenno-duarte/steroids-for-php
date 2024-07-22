@@ -14,20 +14,12 @@ if (!function_exists('htmlspecialchars_recursive')) {
     {
         foreach ($args as $key => $value) {
             if (is_array($args)) {
-                if (array_key_exists($key, $args)) {
-                    unset($args[$key]);
-                }
+                if (array_key_exists($key, $args)) unset($args[$key]);
             }
         }
 
-        if (is_array($args)) {
-            return array_map(htmlspecialchars_recursive(...), $args);
-        }
-
-        if (is_scalar($args)) {
-            return htmlspecialchars($args, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-        }
-
+        if (is_array($args)) return array_map(htmlspecialchars_recursive(...), $args);
+        if (is_scalar($args)) return htmlspecialchars($args, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
         return $args;
     }
 }

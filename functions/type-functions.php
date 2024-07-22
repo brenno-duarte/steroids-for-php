@@ -58,10 +58,7 @@ if (!function_exists('is_associative_array')) {
      */
     function is_associative_array(mixed $var): bool
     {
-        if (!is_array($var)) {
-            return false;
-        }
-
+        if (!is_array($var)) return false;
         $keys = array_keys($var);
         return ($keys !== array_keys($keys));
     }
@@ -76,10 +73,7 @@ if (!function_exists('is_numeric_array')) {
      */
     function is_numeric_array(mixed $var): bool
     {
-        if (!is_array($var)) {
-            return false;
-        }
-
+        if (!is_array($var)) return false;
         $keys = array_keys($var);
         return ($keys === array_keys($keys));
     }
@@ -108,18 +102,9 @@ if (!function_exists('objectify')) {
     function objectify(mixed $var): mixed
     {
         $i = func_num_args() > 1 ? func_get_arg(1) : 100;
-
-        if ($i <= 0) {
-            throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
-        }
-
-        if (!is_array($var) && !is_object($var)) {
-            return $var;
-        }
-
-        if (is_associative_array($var)) {
-            $var = (object)$var;
-        }
+        if ($i <= 0) throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+        if (!is_array($var) && !is_object($var)) return $var;
+        if (is_associative_array($var)) $var = (object)$var;
 
         foreach ($var as &$value) {
             $value = objectify($value, $i - 1);
@@ -139,18 +124,9 @@ if (!function_exists('arrayify')) {
     function arrayify(mixed $var): mixed
     {
         $i = func_num_args() > 1 ? func_get_arg(1) : 100;
-
-        if ($i <= 0) {
-            throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
-        }
-
-        if (!is_array($var) && !is_object($var)) {
-            return $var;
-        }
-
-        if ($var instanceof \stdClass) {
-            $var = (array)$var;
-        }
+        if ($i <= 0) throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+        if (!is_array($var) && !is_object($var)) return $var;
+        if ($var instanceof \stdClass) $var = (array)$var;
 
         foreach ($var as &$value) {
             $value = arrayify($value, $i - 1);
@@ -160,42 +136,18 @@ if (!function_exists('arrayify')) {
     }
 }
 
-if (!function_exists('get_type_description')) {
-    /**
-     * Get the type of a variable in a descriptive way.
-     *
-     * @param mixed $var
-     * @return string
-     */
-    function get_type_description(mixed $var): string
-    {
-        switch (gettype($var)) {
-            case 'double':
-                return 'float';
-            case 'object':
-                return get_class($var) . " object";
-            case 'resource':
-                return get_resource_type($var) . " resource";
-            case 'unknown type':
-                return "resource (closed)"; // BC PHP 7.1
-            default:
-                return gettype($var);
-        }
-    }
-}
-
 if (!function_exists('expect_type')) {
     /**
      * Check that an argument has a specific type, otherwise throw an exception.
      *
      * @param mixed           $var
-     * @param string|string[] $type
+     * @param array|string $type
      * @param string          $throwable  Class name
      * @param string          $message
      * @return void
      * @throws \InvalidArgumentException
      */
-    function expect_type(mixed $var, $type, string $throwable = \TypeError::class, string $message = null): void
+    function expect_type(mixed $var, array|string $type, string $throwable = \TypeError::class, string $message = null): void
     {
         $types = is_scalar($type) ? [$type] : $type;
 
@@ -211,13 +163,17 @@ if (!function_exists('expect_type')) {
             }
 
             if ($valid) {
+                //$ok = $valid;
                 return;
             }
         }
 
-        $message = $message ?? 'Expected %2$s, %1$s given';
-        $varType = get_type_description($var);
+        //var_dump($ok);
 
-        throw new $throwable(sprintf($message, $varType, array_join_pretty(', ', ' or ', $types)));
+        $varType = get_debug_type($var);
+        if (is_array($type)) $type = implode(" or ", $type);
+        $message = $message ?? 'Expected ' . $type . ', ' . $varType . ' given';
+
+        throw new $throwable($message);
     }
 }

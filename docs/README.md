@@ -14,6 +14,7 @@ Steroids for PHP has functions related to:
 - [File functions](10-file.md)
 - [Object functions](11-object.md)
 - [Server functions](12-server.md)
+- [BCMath functions](13-bcmath.md)
 
 Some polyfills are included if you don't want to install an extension using PECL.
 

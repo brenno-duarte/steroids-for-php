@@ -13,7 +13,7 @@ if (!function_exists('array_map_assoc')) {
      * 
      */
     function array_map_assoc(callable $callback, array $array, array ...$arrays): array
-    {
+    {   
         $keys = array_keys($array);
         array_unshift($arrays, $keys, $array);
         return array_combine($keys, array_map($callback, ...$arrays));
@@ -47,25 +47,6 @@ if (!function_exists('array_slice_assoc_inverse')) {
     function array_slice_assoc_inverse(array $array, array $keys): array
     {
         return array_diff_key($array, array_flip($keys));
-    }
-}
-
-if (!function_exists('array_unshift_assoc')) {
-    /**
-     * Prepend one or more elements to the beginning of an array
-     *
-     * @param array $array
-     * @param mixed $key
-     * @param mixed $val
-     * 
-     * @return array
-     */
-    function array_unshift_assoc(array $array, mixed $key, mixed $val): array
-    {
-        $array = array_reverse($array, true);
-        $array[$key] = $val;
-        $array = array_reverse($array, true);
-        return $array;
     }
 }
 

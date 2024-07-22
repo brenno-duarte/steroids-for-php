@@ -37,12 +37,6 @@ objectify(mixed $var): mixed
 arrayify(mixed $var): mixed
 ```
 
-- Get the type of a variable in a descriptive way. E.g. "stream resource" and "DateTime object".
-
-```php
-get_type_description(mixed $var): string
-```
-
 - Validate that an argument has a specific type.
 
 ```php

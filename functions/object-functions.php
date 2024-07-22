@@ -14,7 +14,6 @@ if (!function_exists('object_get_properties')) {
     function object_get_properties($object, bool $dynamic = false): array
     {
         expect_type($object, 'object');
-
         $data = get_object_vars($object);
 
         if (!$dynamic) {
@@ -82,11 +81,7 @@ if (!function_exists('array_to_object')) {
         
         if (is_array($array) && count($array) > 0) {
             foreach ($array as $name => $value) {
-                if (is_array($value)) {
-                    $object->{$name} = array_to_object($value);
-                } else {
-                    $object->{$name} = $value;
-                }
+                (is_array($value)) ? $object->{$name} = array_to_object($value) : $object->{$name} = $value;
             }
         }
 

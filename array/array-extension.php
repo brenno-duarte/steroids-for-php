@@ -52,7 +52,7 @@ if (!function_exists('array_first')) {
 
         reset($array);
         $key = key($array);
-        return array($key, $array[$key]);
+        return [$key, $array[$key]];
     }
 }
 
@@ -264,7 +264,6 @@ if (!function_exists('array_push_array')) {
 
         if (2 > $numArgs) {
             trigger_error(sprintf('%s: expects at least 2 parameters, %s given', __FUNCTION__, $numArgs), E_USER_WARNING);
-            return false;
         }
 
         $values = func_get_args();
@@ -383,16 +382,17 @@ if (!function_exists('array_change_value_case')) {
     {
         switch ($case) {
             case CASE_LOWER:
-                return array_map('strtolower', $array);
+                $array = array_map('strtolower', $array);
                 break;
 
             case CASE_UPPER:
-                return array_map('strtoupper', $array);
+                $array = array_map('strtoupper', $array);
                 break;
 
             default:
                 trigger_error('Case is not valid, CASE_LOWER or CASE_UPPER only', E_USER_ERROR);
-                return false;
         }
+
+        return $array;
     }
 }

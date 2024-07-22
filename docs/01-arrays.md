@@ -20,12 +20,6 @@ array_slice_assoc(array $array, array $keys): array
 array_slice_assoc_inverse(array $array, array $keys): array
 ```
 
-- Prepend one or more elements to the beginning of an array
-
-```php
-array_unshift_assoc(array $array, mixed $key, mixed $val): array
-```
-
 - Remove a portion of the associative array and replace it with something else
 
 ```php

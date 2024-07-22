@@ -33,11 +33,6 @@ echo "\r\n"; */
 //var_dump(mb_str_pad('æøå', 5));
 //var_dump(mb_count_chars('Hello, world!', 3));
 
-/* var_dump(clamp(num: 1, min: 0, max: 3));
-var_dump(clamp(num: 1, min: 2, max: 5));
-var_dump(clamp(num: 4, min: 1, max: 3));
-var_dump(clamp(num: 0, min: 2, max: 1)); */
-
 $var = [];
 //var_dump(isset($var['foo']) ? "Exists" : "Not exists");
 //var_dump(ifsetor($var['foo'], "Not exists"));
@@ -53,16 +48,6 @@ echo $out[1][0] . ", " . $out[1][1] . "\n"; */
 
 //echo mb_substr_replace('éggs', 'x', -1);
 
-$arr1 = range(0, 5);
-$arr2 = [
-  'a' => 1,
-  'b' => 2,
-  'c' => 'hELLO wORLD!'
-];
-$gender = 'male';
-$age = 12;
-//var_dump(is_set('age', 'arr1'));
-//var_dump(isset_array($arr2, 'd'));
 
 $array = [
   'str' => 'Test
@@ -190,4 +175,4 @@ $format = 'There are %d monkeys in the %s';
 
 //print mb_vsprintf("%04d-%02d-%02d", explode('-', '1988-8-1'));
 
-print_r(bytes2human("17179869184"));
+//print_r(bytes2human("17179869184"));

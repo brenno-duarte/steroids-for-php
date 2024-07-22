@@ -40,12 +40,10 @@ if (!function_exists('array_search_recursive')) {
                 }
             }
 
-            if ($is_match) {
-                return $item;
-            }
+            if ($is_match) return $item;
         }
 
-        return false;
+        return [];
     }
 }
 
