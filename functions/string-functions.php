@@ -70,10 +70,10 @@ if (!function_exists('implode_recursive')) {
      * Join pieces with a string recursively.
      * 
      * @param mixed $separator String between pairs(glue) or an array pair's glue and key/value glue or $pieces.
-     * @param iterable $pieces Pieces to implode (optional).
+     * @param null|iterable $pieces Pieces to implode (optional).
      * @return string Joined string
      */
-    function implode_recursive(iterable|string $separator, iterable $pieces = null): string
+    function implode_recursive(iterable|string $separator, ?iterable $pieces = null): string
     {
         $separator2 = null;
         $result = [];

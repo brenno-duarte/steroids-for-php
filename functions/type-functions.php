@@ -147,8 +147,12 @@ if (!function_exists('expect_type')) {
      * @return void
      * @throws \InvalidArgumentException
      */
-    function expect_type(mixed $var, array|string $type, string $throwable = \TypeError::class, string $message = null): void
-    {
+    function expect_type(
+        mixed $var,
+        array|string $type,
+        string $throwable = \TypeError::class,
+        ?string $message = null
+    ): void {
         $types = is_scalar($type) ? [$type] : $type;
 
         foreach ($types as &$curType) {
