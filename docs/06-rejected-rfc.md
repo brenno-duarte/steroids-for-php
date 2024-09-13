@@ -23,3 +23,14 @@ array_delete(array $array, string $value, bool $strict = true): array
 ```php
 array_add(array $array, mixed $value, bool $strict = true): array|false
 ```
+
+- Safe Casting Functions. These functions validate their input to ensure data is not lost with the cast (thus the cast can be considered safe), instead of casting blindly. If the input fails to validate, the to_* functions throw a CastException, while the try_* functions return NULL. If validation succeeds, the converted result is returned.
+
+```php
+safe_int(mixed $value)
+safe_float(mixed $value)
+safe_string(mixed $value)
+to_int(mixed $value)
+to_float(mixed $value)
+to_string(mixed $value)
+```

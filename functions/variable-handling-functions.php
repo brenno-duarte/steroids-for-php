@@ -168,8 +168,7 @@ if (!function_exists('var_log')) {
 
         --$depth;
 
-        if ($sub == false)
-            return $output;
+        if ($sub == false) return $output;
     }
 }
 
@@ -246,5 +245,29 @@ if (!function_exists('html_dump')) {
         }
 
         echo "</div>";
+    }
+}
+
+if (!function_exists("get_declared_enums")) {
+    /**
+     * Returns an array with the name of the defined enums
+     *
+     * @return array
+     */
+    function get_declared_enums(): array
+    {
+        $enums = [];
+        $exts = get_loaded_extensions(false);
+
+        foreach ($exts as $ext) {
+            $re = new ReflectionExtension($ext);
+            $classes = $re->getClasses();
+
+            foreach ($classes as $class) {
+                if ($class->isEnum()) $enums[] = $class->name;
+            }
+        }
+
+        return $enums;
     }
 }

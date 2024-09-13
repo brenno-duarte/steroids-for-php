@@ -41,3 +41,186 @@ function clamp(int|float $num, int|float $min, int|float $max): int|float
 
     return 0;
 }
+
+if (!function_exists("safe_int")) {
+    /**
+     * Returns true if the value can be safely converted to an integer
+     * 
+     * @param mixed $val
+     */
+    function safe_int(mixed $val): bool
+    {
+        switch (gettype($val)) {
+            case "integer":
+                return true;
+            case "double":
+                return $val === (float)(int)$val;
+            case "string":
+                $losslessCast = (string)(int)$val;
+                if ($val !== $losslessCast && $val !== "+$losslessCast") return false;
+                return $val <= PHP_INT_MAX && $val >= PHP_INT_MIN;
+            default:
+                return false;
+        }
+    }
+}
+
+if (!function_exists("safe_float")) {
+    /**
+     * Returns true if the value can be safely converted to a float
+     * 
+     * @param mixed $val
+     */
+    function safe_float(mixed $val): bool
+    {
+        switch (gettype($val)) {
+            case "double":
+            case "integer":
+                return true;
+            case "string":
+                // reject leading zeros unless they are followed by a decimal point
+                if (strlen($val) > 1 && $val[0] === "0" && $val[1] !== ".") {
+                    return false;
+                }
+
+                // Use regular expressions since FILTER_VALIDATE_FLOAT allows trailing whitespace
+                // Based on http://php.net/manual/en/language.types.float.php
+                $lnum    = "[0-9]+";
+                $dnum    = "([0-9]*[\.]{$lnum})|({$lnum}[\.][0-9]*)";
+                $expDnum = "/^[+-]?(({$lnum}|{$dnum})[eE][+-]?{$lnum})$/";
+
+                return
+                    preg_match("/^[+-]?{$lnum}$/", $val) ||
+                    preg_match("/^[+-]?{$dnum}$/", $val) ||
+                    preg_match($expDnum, $val);
+            default:
+                return false;
+        }
+    }
+}
+
+if (!function_exists("safe_string")) {
+    /**
+     * Returns true if the value can be safely converted to a string
+     * 
+     * @param mixed $val
+     */
+    function safe_string(mixed $val): bool
+    {
+        switch (gettype($val)) {
+            case "string":
+            case "integer":
+            case "double":
+                return true;
+            case "object":
+                return method_exists($val, "__toString");
+            default:
+                return false;
+        }
+    }
+}
+
+if (!function_exists("to_int")) {
+    /**
+     * Returns the value as an integer
+     * 
+     * @param mixed $val
+     * @throws \Exception if the value cannot be safely cast to an integer
+     */
+    function to_int(mixed $val): int
+    {
+        if (!safe_int($val)) throw new \Exception("Value could not be converted to int");
+        return (int)$val;
+    }
+}
+
+if (!function_exists("to_float")) {
+    /**
+     * Returns the value as a float
+     * 
+     * @param mixed $val
+     * @throws \Exception if the value cannot be safely cast to a float
+     */
+    function to_float(mixed $val): float
+    {
+        if (!safe_float($val)) throw new \Exception("Value could not be converted to float");
+        return (float)$val;
+    }
+}
+
+if (!function_exists("to_string")) {
+    /**
+     * Returns the value as a string
+     * 
+     * @param mixed $val
+     * @throws \Exception if the value cannot be safely cast to a string
+     */
+    function to_string(mixed $val): string
+    {
+        if (!safe_string($val)) throw new \Exception("Value could not be converted to string");
+        return (string)$val;
+    }
+}
+
+if (!function_exists("var_info")) {
+    function var_info(mixed $var): string
+    {
+        if (is_object($var) || $var instanceof \__PHP_Incomplete_Class) {
+            return 'object of class ' . get_class($var);
+        } elseif (is_resource($var)) {
+            return 'resource of type ' . get_resource_type($var);
+        } elseif (is_array($var)) {
+            if (empty($var)) {
+                return 'empty array';
+            }
+            if (is_callable($var)) {
+                return 'callable array';
+            };
+            if (array_filter($var, 'is_int', ARRAY_FILTER_USE_KEY)) {
+                return 'indexed array';
+            }
+
+            return 'associative array';
+        } elseif (is_int($var)) {
+            if ($var < 0) {
+                return 'negative integer';
+            }
+            if ($var > 0) {
+                return 'positive integer';
+            }
+
+            return 'zero integer';
+        } elseif (is_float($var)) {
+            if (is_infinite($var)) {
+                return 'infinite float';
+            }
+            if (is_nan($var)) {
+                return 'invalid float';
+            }
+            if ($var < 0) {
+                return 'negative float';
+            }
+            if ($var > 0) {
+                return 'positive float';
+            }
+
+            return 'zero float';
+        } elseif (is_string($var)) {
+            if (empty($var)) {
+                return 'empty string';
+            }
+            if (is_callable($var)) {
+                return 'callable string';
+            }
+            if (is_numeric($var)) {
+                return 'numeric string';
+            }
+
+            return 'string';
+        } elseif (is_bool($var)) {
+            return true === $var ? 'boolean true' : 'boolean false';
+        } else {
+            return 'unknown type';
+        }
+    }
+}

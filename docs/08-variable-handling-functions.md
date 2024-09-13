@@ -29,3 +29,9 @@ var_log(mixed $value, string $var_name = '', string $reference = '', string $met
 ```php
 html_dump(mixed $var, ?string $var_name = null, ?string $indent = null, ?string $reference = null): void
 ```
+
+- Returns an array with the name of the defined enums
+
+```php
+get_declared_enums(): array
+```
