@@ -18,13 +18,13 @@ mb_str_contains(string $haystack, string $needle, $encoding = null): bool
 mb_ucwords(string $string, string $encoding = 'UTF-8'): string
 ```
 
-- Make the first character of a string uppercase
+- Make the first character of a string uppercase (Available since PHP 8.4)
 
 ```php
 mb_ucfirst(string $string, string $encoding = 'UTF-8'): string
 ```
 
-- Make a string's first character lowercase
+- Make a string's first character lowercase (Available since PHP 8.4)
 
 ```php
 mb_lcfirst(string $string): string

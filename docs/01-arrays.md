@@ -333,12 +333,6 @@ array_only(array $array, array $keys): array
 array_without(array $array, array $keys): array
 ```
 
-- Find an element of an array using a callback function. Returns the value or FALSE if no element was found.
-
-```php
-array_find(array $array, callable $callback, int $flag = 0): mixed
-```
-
 Flag determining what arguments are sent to callback:
 
 * `ARRAY_FILTER_USE_KEY` - pass key as the only argument to callback instead of the value

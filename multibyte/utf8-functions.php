@@ -36,7 +36,11 @@ if (!function_exists('array_encode_utf8')) {
         array_walk_recursive(
             $array,
             function ($array) use ($source_encoding) {
-                $array = mb_convert_encoding($array, 'UTF-8', $source_encoding);
+                $array = mb_convert_encoding(
+                    $array,
+                    'UTF-8',
+                    $source_encoding
+                );
             }
         );
 

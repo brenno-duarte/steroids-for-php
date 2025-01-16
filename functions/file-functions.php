@@ -75,10 +75,8 @@ if (!function_exists('file_extension')) {
     {
         clearstatcache(true, $file_name);
 
-        if (!file_exists($file_name)) {
-            trigger_error("File '" . $file_name . "' not found or isn't a file", E_USER_ERROR);
-            exit;
-        }
+        if (!file_exists($file_name))
+            exit("File '" . $file_name . "' not found or isn't a file");
 
         $info = pathinfo($file_name);
         $info = $info['extension'];

@@ -12,13 +12,16 @@ if (!function_exists('reflection_get_attributes')) {
      * 
      * @return array
      */
-    function reflection_get_attributes(object|string $class_name, string|null $method, string $attribute_name): array
-    {
+    function reflection_get_attributes(
+        object|string $class_name,
+        string|null $method,
+        string $attribute_name
+    ): array {
         $attribute_info = [];
         $reflection = new \ReflectionMethod($class_name, $method);
 
         foreach ($reflection->getAttributes($attribute_name) as $reflection_attribute) {
-            $attribute_info[] = [
+            $attribute_info = [
                 'name' => $reflection_attribute->getName(),
                 'args' => $reflection_attribute->getArguments(),
                 'instance' => $reflection_attribute->newInstance()
@@ -58,14 +61,22 @@ if (!function_exists('reflection_extension_info')) {
     {
         defined('UNDEFINED') || define('UNDEFINED', '%undefined%');
 
+        $message = PHP_EOL;
+        $message .= "\e[42m" . str_pad('', 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
+        $message .= "\e[42;30m" . str_pad("PHP Extension Info: " . $extension_name, 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
+        $message .= "\e[42m" . str_pad('', 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
+        $message .= PHP_EOL;
+
+        echo $message;
+
         $re = new ReflectionExtension($extension_name);
         $re->info();
 
-        echo "\n- Classname:\n" . PHP_EOL . implode(", ", $re->getClassNames()) ?: UNDEFINED;
+        echo "\n\e[92mClassname:\e[0m\n" . PHP_EOL . implode(", ", $re->getClassNames()) ?: UNDEFINED;
         echo PHP_EOL . PHP_EOL;
 
         if (!empty($re->getConstants())) {
-            echo "- Constants:\n";
+            echo "\e[92mConstants:\e[0m\n";
 
             foreach ($re->getConstants() as $key => $value) {
                 echo "\n{$key}={$value}";
@@ -75,7 +86,7 @@ if (!function_exists('reflection_extension_info')) {
         }
 
         if (!empty($re->getDependencies())) {
-            echo "- Dependencies:\n";
+            echo "\e[92mDependencies:\e[0m\n";
 
             foreach ($re->getDependencies() as $key => $value) {
                 echo "\n{$key}={$value}";
@@ -85,11 +96,11 @@ if (!function_exists('reflection_extension_info')) {
         }
 
         if (!empty($re->getFunctions())) {
-            echo "- Functions:\n" . PHP_EOL . implode("\n", array_keys($re->getFunctions())) ?: UNDEFINED;
+            echo "\e[92mFunctions:\n" . PHP_EOL . implode("\n", array_keys($re->getFunctions())) ?: UNDEFINED;
         }
 
         if (!empty($re->getINIEntries())) {
-            echo "- INIEntries:\n";
+            echo "\e[92mINIEntries:\e[0m\n";
 
             foreach ($re->getINIEntries() as $key => $value) {
                 echo "\n{$key}={$value}";
@@ -98,9 +109,9 @@ if (!function_exists('reflection_extension_info')) {
             echo PHP_EOL . PHP_EOL;
         }
 
-        echo "- isPersistent:" . $re->isPersistent() ?: UNDEFINED;
+        echo "\e[92misPersistent:\e[0m " . $re->isPersistent() ?: UNDEFINED;
         echo PHP_EOL;
-        echo "- isTemporary:" . $re->isTemporary() ?: UNDEFINED;
+        echo "\e[92misTemporary:\e[0m " . $re->isTemporary() ?: UNDEFINED;
     }
 }
 
@@ -117,11 +128,9 @@ if (!function_exists('reflection_new_instance')) {
     {
         $reflection = new \ReflectionClass($objectOrClass);
 
-        if (!empty($args)) {
-            return $reflection->newInstanceArgs($args);
-        }
-
-        return $reflection->newInstance();
+        return (!empty($args)) ?
+            $reflection->newInstanceArgs($args) :
+            $reflection->newInstance();
     }
 }
 
@@ -160,13 +169,11 @@ if (!function_exists('reflection_invoke_method')) {
                 $objectOrClass = get_class($objectOrClass);
             }
 
-            trigger_error("Class " . $objectOrClass . " is abstract", E_USER_ERROR);
+            exit("Class " . $objectOrClass . " is abstract");
         }
 
-        if (!empty($args)) {
-            return $reflection->invokeArgs(new $objectOrClass, $args);
-        }
-
-        return $reflection->invoke(new $objectOrClass);
+        return (!empty($args)) ?
+            $reflection->invokeArgs(new $objectOrClass, $args) :
+            $reflection->invoke(new $objectOrClass);
     }
 }

@@ -89,32 +89,6 @@ if (!function_exists('array_key_delete')) {
     }
 }
 
-if (!function_exists('array_find')) {
-    /**
-     * Find an element of an array using a callback function.
-     * @see array_filter()
-     *
-     * Returns the value or FALSE if no element was found.
-     *
-     * @param array    $array
-     * @param callable $callback
-     * @param int      $flag      Flag determining what arguments are sent to callback
-     * @return mixed|false
-     */
-    function array_find(array $array, callable $callback, int $flag = 0): mixed
-    {
-        foreach ($array as $key => $value) {
-            $args = $flag === ARRAY_FILTER_USE_BOTH ? [$value, $key] : ($flag === ARRAY_FILTER_USE_KEY ? [$key] : [$value]);
-
-            if ($callback(...$args)) {
-                return $value;
-            }
-        }
-
-        return false;
-    }
-}
-
 if (!function_exists('array_find_key')) {
     /**
      * Find a key of an array using a callback function.

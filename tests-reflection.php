@@ -7,8 +7,7 @@ class Route
 {
     public function __construct(
         protected string $path
-    ) {
-    }
+    ) {}
 
     public function getPath()
     {
@@ -32,12 +31,18 @@ class UsuariosController
     }
 }
 
-/* $res = reflection_get_attributes(UsuariosController::class, 'index', Route::class);
-var_dump($res); */
+/* $res = reflection_get_attributes(
+    UsuariosController::class,
+    'index',
+    Route::class
+);
+
+$instance = new $res["instance"];
+var_dump($instance->getPath()); */
 
 //print_r(reflection_get_property(UsuariosController::class, 'property1'));
 
-//reflection_extension_info('memcached');
+reflection_extension_info('memcached');
 
 /* $res = reflection_new_instance(UsuariosController::class);
 echo $res->index(); */

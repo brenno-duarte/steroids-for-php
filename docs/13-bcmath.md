@@ -18,7 +18,7 @@ bcnegative(string $number): bool
 bcisdecimal(string $number): bool
 ```
 
-- Round a number from lib bcmath
+- Round a number from lib bcmath (Available since PHP 8.4)
 
 ```php
 bcround(string $number, int $scale = 0): string

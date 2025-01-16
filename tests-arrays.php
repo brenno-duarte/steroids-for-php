@@ -21,11 +21,7 @@ $arr = array(
     'fruits' => 'fruits',
 );
 
-//print_r(array_find('na', $array_test2));
-
-
-//var_dump(file_extension(__DIR__ . '/fileg.txt'));
-
+//var_dump(file_extension(__DIR__ . '/phpunit.xml'));
 
 //$arr = array("FirSt" => 1, "yağ" => "Oil", "şekER" => "sugar");
 
@@ -45,4 +41,4 @@ $b = ['first' => 1, 'second' => 2, 'third' => 3, 'fourth' => 4, 'fifth' => 5];
 var_dump(array_map_recursive('cube', $a)); */
 
 $arr_unicode = ["FirSt" => 1, "ZażóŁć gęŚlą jaŹń" => ["yağ" => "Oil", "şekER" => "sugar"]];
-print_r(array_encode_utf8($arr_unicode, 'ISO-8859-1'));
+//print_r(array_encode_utf8($arr_unicode, 'ISO-8859-1'));

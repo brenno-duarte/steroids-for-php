@@ -27,11 +27,12 @@ echo "       >    str_contains: ".var_export(str_contains($string, $contains2), 
 echo "       > mb_str_contains: ".var_export(mb_str_contains($string, $contains2), true)."\r\n";
 echo "\r\n"; */
 
-//var_dump(mb_ucfirst("àsdf"));
-//var_dump(mb_ucwords('åäö'));
-//var_dump(mb_strrev('åäö'));
-//var_dump(mb_str_pad('æøå', 5));
-//var_dump(mb_count_chars('Hello, world!', 3));
+var_dump(mb_ucfirst("àsdf"));
+var_dump(mb_lcfirst("àsdf"));
+var_dump(mb_ucwords('åäö'));
+var_dump(mb_strrev('åäö'));
+var_dump(mb_str_pad('æøå', 5));
+var_dump(mb_count_chars('Hello, world!', 3));
 
 $var = [];
 //var_dump(isset($var['foo']) ? "Exists" : "Not exists");

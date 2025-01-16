@@ -27,7 +27,7 @@ class rejectedrfcTest extends TestCase
             [[], 'empty array'],
             [[12], 'indexed array'],
             [['key' => 'value'], 'associative array'],
-            [[FakeClass::class, 'method'], 'callable array'],
+            [[FakeClass::class, 'method'], 'indexed array'],
             [[new FakeClass(), 'method'], 'callable array'],
 
             [-1.0, 'negative float'],
