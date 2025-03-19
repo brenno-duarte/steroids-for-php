@@ -126,9 +126,7 @@ if (!function_exists('utf8_get_invalid_byte_sequence')) {
      */
     function utf8_get_invalid_byte_sequence(string $string): ?string
     {
-        if (is_valid_utf8($string)) {
-            return null;
-        }
+        if (is_valid_utf8($string)) return null;
 
         $position = utf8_find_invalid_byte_sequence($string);
         $sequence = $string[$position];
@@ -175,9 +173,7 @@ if (!function_exists('utf8_get_state_machine')) {
     {
         static $machine = null;
 
-        if ($machine !== null) {
-            return $machine;
-        }
+        if ($machine !== null) return $machine;
 
         $start = [];
         $u40000_uFFFFF_2nd_byte = [];

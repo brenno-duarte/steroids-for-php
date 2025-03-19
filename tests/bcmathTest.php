@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class bcmathTest extends TestCase
+class BCMathTest extends TestCase
 {
     public function testBcfact()
     {

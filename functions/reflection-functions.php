@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 if (!function_exists('reflection_get_attributes')) {
     /**
@@ -9,7 +7,7 @@ if (!function_exists('reflection_get_attributes')) {
      * @param object|string $class_name
      * @param string|null $method
      * @param string $attribute_name
-     * 
+     *
      * @return array
      */
     function reflection_get_attributes(
@@ -38,7 +36,7 @@ if (!function_exists('reflection_get_property')) {
      *
      * @param string|object $class
      * @param string $property
-     * 
+     *
      * @return mixed
      */
     function reflection_get_property(string|object $class, string $property): mixed
@@ -54,7 +52,7 @@ if (!function_exists('reflection_extension_info')) {
      * Reports information about an extension
      *
      * @param string $extension_name
-     * 
+     *
      * @return void
      */
     function reflection_extension_info(string $extension_name): void
@@ -63,7 +61,7 @@ if (!function_exists('reflection_extension_info')) {
 
         $message = PHP_EOL;
         $message .= "\e[42m" . str_pad('', 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
-        $message .= "\e[42;30m" . str_pad("PHP Extension Info: " . $extension_name, 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
+        $message .= "\e[42;30m" . str_pad('PHP Extension Info: ' . $extension_name, 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
         $message .= "\e[42m" . str_pad('', 40, pad_type: STR_PAD_BOTH) . "\e[0m" . PHP_EOL;
         $message .= PHP_EOL;
 
@@ -72,7 +70,7 @@ if (!function_exists('reflection_extension_info')) {
         $re = new ReflectionExtension($extension_name);
         $re->info();
 
-        echo "\n\e[92mClassname:\e[0m\n" . PHP_EOL . implode(", ", $re->getClassNames()) ?: UNDEFINED;
+        echo "\n\e[92mClassname:\e[0m\n" . PHP_EOL . implode(', ', $re->getClassNames()) ?: UNDEFINED;
         echo PHP_EOL . PHP_EOL;
 
         if (!empty($re->getConstants())) {
@@ -121,16 +119,16 @@ if (!function_exists('reflection_new_instance')) {
      *
      * @param object|string $objectOrClass
      * @param mixed ...$args
-     * 
-     * @return mixed 
+     *
+     * @return mixed
      */
     function reflection_new_instance(object|string $objectOrClass, ...$args): mixed
     {
         $reflection = new \ReflectionClass($objectOrClass);
 
-        return (!empty($args)) ?
-            $reflection->newInstanceArgs($args) :
-            $reflection->newInstance();
+        return (!empty($args))
+            ? $reflection->newInstanceArgs($args)
+            : $reflection->newInstance();
     }
 }
 
@@ -139,7 +137,7 @@ if (!function_exists('reflection_instance_without_construct')) {
      * Creates a new class instance without invoking the constructor
      *
      * @param object|string $objectOrClass
-     * 
+     *
      * @return mixed
      */
     function reflection_instance_without_construct(object|string $objectOrClass): mixed
@@ -156,7 +154,7 @@ if (!function_exists('reflection_invoke_method')) {
      * @param object|string $objectOrClass
      * @param string $method
      * @param mixed ...$args
-     * 
+     *
      * @return mixed
      */
     function reflection_invoke_method(object|string $objectOrClass, string $method, ...$args): mixed
@@ -169,11 +167,11 @@ if (!function_exists('reflection_invoke_method')) {
                 $objectOrClass = get_class($objectOrClass);
             }
 
-            exit("Class " . $objectOrClass . " is abstract");
+            exit('Class ' . $objectOrClass . ' is abstract');
         }
 
-        return (!empty($args)) ?
-            $reflection->invokeArgs(new $objectOrClass, $args) :
-            $reflection->invoke(new $objectOrClass);
+        return (!empty($args))
+            ? $reflection->invokeArgs(new $objectOrClass, $args)
+            : $reflection->invoke(new $objectOrClass);
     }
 }

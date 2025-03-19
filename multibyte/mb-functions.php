@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 if (!function_exists('mb_substr_replace')) {
     /**
@@ -10,9 +8,8 @@ if (!function_exists('mb_substr_replace')) {
      * @param array|string $replace
      * @param array|int $start
      * @param array|int|null $length
-     * 
+     *
      * @return array|string
-     * 
      */
     function mb_substr_replace(array|string $string, array|string $replace, array|int $start, mixed $length = null): array|string
     {
@@ -27,7 +24,7 @@ if (!function_exists('mb_str_contains')) {
      * @param string $haystack
      * @param string $needle
      * @param string|null $encoding
-     * 
+     *
      * @return bool
      */
     function mb_str_contains(string $haystack, string $needle, ?string $encoding = null): bool
@@ -51,12 +48,12 @@ if (!function_exists('mb_ucwords')) {
         $previous_character = ' ';
 
         $length = mb_strlen($string, $encoding);
+
         for ($i = 0; $i < $length; ++$i) {
             $current_character = mb_substr($string, $i, 1, $encoding);
 
-            if (' ' === $previous_character) {
+            if (' ' === $previous_character)
                 $current_character = mb_strtoupper($current_character, $encoding);
-            }
 
             $result .= $current_character;
             $previous_character = $current_character;
@@ -81,9 +78,9 @@ if (!function_exists('mb_ucfirst')) {
         $rest = mb_substr($string, 1, null, $encoding);
 
         $lower_first_char = mb_strtolower($first_char, $encoding);
-        if ($first_char === $lower_first_char) {
+
+        if ($first_char === $lower_first_char)
             $first_char = mb_strtoupper($first_char, $encoding);
-        }
 
         return $first_char . $rest;
     }
@@ -94,7 +91,7 @@ if (!function_exists('mb_lcfirst')) {
      * Make a string's first character lowercase
      *
      * @param string $string
-     * 
+     *
      * @return string
      */
     function mb_lcfirst(string $string): string
@@ -142,13 +139,27 @@ if (!function_exists('mb_str_pad')) {
      *
      * @throws ValueError If $pad_type is not STR_PAD_RIGHT, STR_PAD_LEFT, or STR_PAD_BOTH
      */
-    function mb_str_pad(string $input, int $pad_length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, string $encoding = 'UTF-8'): string
-    {
-        if (!in_array($pad_type, [\STR_PAD_RIGHT, \STR_PAD_LEFT, \STR_PAD_BOTH], true)) {
+    function mb_str_pad(
+        string $input,
+        int $pad_length,
+        string $pad_string = ' ',
+        int $pad_type = \STR_PAD_RIGHT,
+        string $encoding = 'UTF-8'
+    ): string {
+        if (!in_array(
+            $pad_type,
+            [\STR_PAD_RIGHT, \STR_PAD_LEFT, \STR_PAD_BOTH],
+            true
+        )) {
             throw new ValueError('Argument #4 ($pad_type) must be STR_PAD_RIGHT, STR_PAD_LEFT, or STR_PAD_BOTH');
         }
 
-        return str_pad($input, strlen($input) - mb_strlen($input, $encoding) + $pad_length, $pad_string, $pad_type);
+        return str_pad(
+            $input, 
+            strlen($input) - mb_strlen($input, $encoding) + $pad_length, 
+            $pad_string, 
+            $pad_type
+        );
     }
 }
 
@@ -159,7 +170,7 @@ if (!function_exists('mb_strtr')) {
      * @param mixed $str
      * @param string|null $a
      * @param string|null $b
-     * 
+     *
      * @return string
      */
     function mb_strtr(string $str, ?string $from = null, ?string $to = null): string
@@ -188,24 +199,19 @@ if (!function_exists('mb_str_word_count')) {
      * @param string $str
      * @param int $format
      * @param string|null $charlist
-     * 
+     *
      * @return mixed
      */
     function mb_str_word_count(string $str, int $format = 2, ?string $charlist = null): mixed
     {
-        if ($format < 0 || $format > 2) {
+        if ($format < 0 || $format > 2)
             throw new InvalidArgumentException('Argument #2 ($format) must be a valid format value');
-        }
 
-        if ($charlist === null) {
-            $charlist = "";
-        }
+        if ($charlist === null) $charlist = '';
 
-        $count = preg_match_all('#[\p{L}\p{N}][\p{L}\p{N}\'' . $charlist . ']*#u', $str, $matches, $format === 2 ? PREG_OFFSET_CAPTURE : PREG_PATTERN_ORDER);
+        $count = preg_match_all("#[\p{L}\p{N}][\p{L}\p{N}'" . $charlist . ']*#u', $str, $matches, $format === 2 ? PREG_OFFSET_CAPTURE : PREG_PATTERN_ORDER);
 
-        if ($format === 0) {
-            return $count;
-        }
+        if ($format === 0) return $count;
 
         $matches = $matches[0] ?? [];
 
@@ -228,14 +234,14 @@ if (!function_exists('mb_str_shuffle')) {
      * Randomly shuffles a string
      *
      * @param string $string
-     * 
+     *
      * @return string
      */
     function mb_str_shuffle(string $string): string
     {
-        $tmp = preg_split("//u", $string, -1, PREG_SPLIT_NO_EMPTY);
+        $tmp = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
         shuffle($tmp);
-        return join("", $tmp);
+        return join('', $tmp);
     }
 }
 
@@ -267,19 +273,17 @@ if (!function_exists('mb_count_chars')) {
         for ($i = 0; $i < $length; ++$i) {
             $char = mb_substr($string, $i, 1, $encoding);
 
-            if (!array_key_exists($char, $char_counts)) {
-                $char_counts[$char] = 0;
-            }
+            if (!array_key_exists($char, $char_counts)) $char_counts[$char] = 0;
 
             ++$char_counts[$char];
         }
 
         return match ($mode) {
             0 => $char_counts,
-            1 => array_filter($char_counts, static fn ($count): bool => $count > 0),
-            2 => array_filter($char_counts, static fn ($count): bool => 0 === $count),
+            1 => array_filter($char_counts, static fn($count): bool => $count > 0),
+            2 => array_filter($char_counts, static fn($count): bool => 0 === $count),
             3 => implode('', array_unique(mb_str_split($string, 1, $encoding))),
-            4 => implode('', array_filter(array_unique(mb_str_split($string, 1, $encoding)), static fn ($char): bool => 0 === $char_counts[$char])),
+            4 => implode('', array_filter(array_unique(mb_str_split($string, 1, $encoding)), static fn($char): bool => 0 === $char_counts[$char])),
             default => throw new ValueError('Argument #2 ($mode) must be between 0 and 4 (inclusive)'),
         };
     }
@@ -290,7 +294,7 @@ if (!function_exists('mb_basename')) {
      * Returns trailing name component of path
      *
      * @param string $path
-     * 
+     *
      * @return string
      */
     function mb_basename(string $path): string
@@ -312,16 +316,17 @@ if (!function_exists('mb_strcasecmp')) {
      * @param string $string1
      * @param string $string2
      * @param string|null $encoding
-     * 
+     *
      * @return int
      */
     function mb_strcasecmp(string $string1, string $string2, ?string $encoding = null): int
     {
-        if (null === $encoding) {
-            $encoding = mb_internal_encoding();
-        }
+        if (null === $encoding) $encoding = mb_internal_encoding();
 
-        return strcmp(mb_strtoupper($string1, $encoding), mb_strtoupper($string2, $encoding));
+        return strcmp(
+            mb_strtoupper($string1, $encoding), 
+            mb_strtoupper($string2, $encoding)
+        );
     }
 }
 
@@ -333,18 +338,17 @@ if (!function_exists('mb_wordwrap')) {
      * @param int $width
      * @param string $break
      * @param bool $cut_long_words
-     * 
-     * @return string 
+     *
+     * @return string
      */
     function mb_wordwrap(string $string, int $width = 75, string $break = "\n", bool $cut_long_words = false): string
     {
         $lines = explode($break, $string);
+
         foreach ($lines as &$line) {
             $line = rtrim($line);
 
-            if (mb_strlen($line) <= $width) {
-                continue;
-            }
+            if (mb_strlen($line) <= $width) continue;
 
             $words = explode(' ', $line);
             $line = '';
@@ -387,7 +391,7 @@ if (!function_exists('mb_preg_match_all')) {
      * @param mixed $matches
      * @param int $flags
      * @param int $offset
-     * 
+     *
      * @return int|false
      */
     function mb_preg_match_all(string $pattern, string $subject, &$matches, int $flags = 0, int $offset = 0): int|false
@@ -396,7 +400,7 @@ if (!function_exists('mb_preg_match_all')) {
 
         if ($flags & PREG_OFFSET_CAPTURE && is_array($matches) && count($matches) > 0) {
             foreach ($matches[0] as &$match) {
-                $match[1] = mb_strlen(substr($subject, 0, (int)$match[1]));
+                $match[1] = mb_strlen(substr($subject, 0, (int) $match[1]));
             }
         }
 
@@ -409,20 +413,22 @@ if (!function_exists('mb_readline')) {
      * readline function with unicode support
      *
      * @param string|null $prompt
-     * 
+     *
      * @return string|false
      */
     function mb_readline(?string $prompt = null): string|false
     {
-        if ($prompt !== null && $prompt !== '') {
-            echo $prompt;
-        }
+        if ($prompt !== null && $prompt !== '') echo $prompt;
 
         $line = fgets(STDIN);
 
         // readline() removes the trailing newline, fgets does not,
         // to emulate the real readline(), we also need to remove it
-        if ($line !== false && strlen($line) >= strlen(PHP_EOL) && str_ends_with($line, PHP_EOL)) {
+        if (
+            $line !== false && 
+            strlen($line) >= strlen(PHP_EOL) && 
+            str_ends_with($line, PHP_EOL)
+        ) {
             $line = substr($line, 0, -strlen(PHP_EOL));
         }
 
@@ -435,7 +441,7 @@ if (!function_exists('mb_htmlentities')) {
      * Convert all applicable characters to HTML entities
      *
      * @param string $string
-     * 
+     *
      * @return string
      */
     function mb_htmlentities(string $string): string
@@ -449,13 +455,12 @@ if (!function_exists('mb_htmlentities')) {
         foreach ($ar as $c) {
             $o = ord($c);
 
-            if ((strlen($c) > 1) || /* multi-byte [unicode] */
-                ($o < 32 || $o > 126) || /* <- control / latin weirdos -> */
-                ($o > 33 && $o < 40) ||/* quotes + ambersand */
-                ($o > 59 && $o < 63) /* html */
-            ) {
+            if ((strlen($c) > 1) ||  /* multi-byte [unicode] */
+                    ($o < 32 || $o > 126) ||  /* <- control / latin weirdos -> */
+                    ($o > 33 && $o < 40) ||  /* quotes + ambersand */
+                    ($o > 59 && $o < 63) /* html */) {
                 // convert to numeric entity
-                $c = mb_encode_numericentity($c, array(0x0, 0xffff, 0, 0xffff), 'UTF-8');
+                $c = mb_encode_numericentity($c, array(0x0, 0xFFFF, 0, 0xFFFF), 'UTF-8');
             }
 
             $string2 .= $c;
@@ -470,7 +475,7 @@ if (!function_exists('mb_sprintf')) {
      * Return a formatted string
      *
      * @param string $format
-     * 
+     *
      * @return string
      */
     function mb_sprintf(string $format): string
@@ -490,21 +495,20 @@ if (!function_exists('mb_vsprintf')) {
      * @param mixed $format
      * @param mixed $argv
      * @param null|string $encoding
-     * 
+     *
      * @return string
      */
     function mb_vsprintf(string $format, array $argv, ?string $encoding = null): string
     {
-        if (is_null($encoding))
-            $encoding = mb_internal_encoding();
+        if (is_null($encoding)) $encoding = mb_internal_encoding();
 
         // Use UTF-8 in the format so we can use the u flag in preg_split
         $format = mb_convert_encoding($format, 'UTF-8', $encoding);
 
-        $newformat = ""; // build a new format in UTF-8
-        $newargv = array(); // unhandled args in unchanged encoding
+        $newformat = '';  // build a new format in UTF-8
+        $newargv = array();  // unhandled args in unchanged encoding
 
-        while ($format !== "") {
+        while ($format !== '') {
             // Split the format in two parts: $pre and $post by the first %-directive
             // We get also the matched groups
             list($pre, $sign, $filler, $align, $size, $precision, $type, $post) =
@@ -532,7 +536,7 @@ if (!function_exists('mb_vsprintf')) {
                 if ($precision !== '') {
                     $precision = intval(substr($precision, 1));
                     if ($precision > 0 && mb_strlen($arg, $encoding) > $precision)
-                        $arg = mb_substr((string)$precision, 0, $precision, $encoding);
+                        $arg = mb_substr((string) $precision, 0, $precision, $encoding);
                 }
 
                 // define padding
@@ -542,9 +546,9 @@ if (!function_exists('mb_vsprintf')) {
                         if ($filler === '')
                             $filler = ' ';
                         if ($align == '-')
-                            $padding_post = str_repeat($filler, (int)$size - $arglen);
+                            $padding_post = str_repeat($filler, (int) $size - $arglen);
                         else
-                            $padding_pre = str_repeat($filler, (int)$size - $arglen);
+                            $padding_pre = str_repeat($filler, (int) $size - $arglen);
                     }
                 }
 
@@ -570,20 +574,20 @@ if (!function_exists('mb_chunk_split')) {
      * @param string $str
      * @param int $length
      * @param string $separator
-     * 
+     *
      * @return string
      */
     function mb_chunk_split(string $str, int $length = 76, string $separator = "\r\n"): string
     {
         $tmp = array_chunk(
-            preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY),
+            preg_split('//u', $str, -1, PREG_SPLIT_NO_EMPTY),
             $length
         );
 
-        $str = "";
+        $str = '';
 
         foreach ($tmp as $t) {
-            $str .= join("", $t) . $separator;
+            $str .= join('', $t) . $separator;
         }
 
         return $str;

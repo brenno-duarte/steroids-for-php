@@ -42,4 +42,5 @@ Some polyfills are included if you don't want to install an extension using PECL
 - [yaml](https://www.php.net/manual/en/book.yaml.php)
 - [simdjson](https://www.php.net/manual/en/book.simdjson.php)
 - [var_representation](https://www.php.net/manual/en/book.var_representation.php)
+- [statistic](https://www.php.net/manual/en/book.stats.php)
 - [xxtea](https://github.com/xxtea/xxtea-pecl)

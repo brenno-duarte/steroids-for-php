@@ -3,7 +3,7 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class rejectedrfcTest extends TestCase
+class RejectedRFCTest extends TestCase
 {
     public function testClamp()
     {

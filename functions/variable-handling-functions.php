@@ -26,21 +26,15 @@ if (!function_exists('isset_array')) {
      */
     function isset_array(): bool
     {
-        if (func_num_args() < 2) {
-            return true;
-        }
+        if (func_num_args() < 2) return true;
 
         $args = func_get_args();
         $array = array_shift($args);
 
-        if (!is_array($array)) {
-            return false;
-        }
+        if (!is_array($array)) return false;
 
         foreach ($args as $n) {
-            if (!isset($array[$n])) {
-                return false;
-            }
+            if (!isset($array[$n])) return false;
         }
 
         return true;
@@ -69,11 +63,13 @@ if (!function_exists('var_export_short')) {
             "/([ ]*)(\'[^\']+\') => ([\[\'])/" => '$1$2 => $3',
         ];
 
-        $export = preg_replace(array_keys($patterns), array_values($patterns), $export);
+        $export = preg_replace(
+            array_keys($patterns), 
+            array_values($patterns), 
+            $export
+        );
 
-        if ((bool)$return) {
-            return $export;
-        }
+        if ((bool)$return) return $export;
 
         echo $export;
         return null;
@@ -92,7 +88,7 @@ if (!function_exists('var_log')) {
      * 
      * @return mixed
      */
-    function var_log(mixed $value, string $var_name = '', string $reference = '', string $method = '=', bool $sub = false): mixed
+    function var_log(mixed $value, string $var_name = '', string $reference = '', string $method = '=', bool $sub = false)
     {
         static $output;
         static $depth;
@@ -191,9 +187,8 @@ if (!function_exists('html_dump')) {
     {
         global $argv;
 
-        if (isset($argv)) {
+        if (isset($argv))
             trigger_error("html_dump() is used only in browser", E_USER_ERROR);
-        }
 
         $do_dump_indent = "<span style='color:#666666;'>|</span> &nbsp;&nbsp; ";
         $reference = $reference . $var_name;

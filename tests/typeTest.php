@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class typeTest extends TestCase
+class TypeTest extends TestCase
 {
     /* public function testIsSet()
     {

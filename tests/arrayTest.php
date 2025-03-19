@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class arrayTest extends TestCase
+class ArrayTest extends TestCase
 {
     public function testArrayMapAssoc()
     {

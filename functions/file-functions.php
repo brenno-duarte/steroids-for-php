@@ -14,9 +14,7 @@ if (!function_exists('file_contains')) {
     {
         $handle = fopen($filename, 'r');
 
-        if ($handle === false) {
-            return false;
-        }
+        if ($handle === false)  return false;
 
         $valid = false;
         $len = max(2 * strlen($str), 256);
@@ -29,6 +27,7 @@ if (!function_exists('file_contains')) {
                 $valid = true;
                 break;
             }
+
             $prev = $cur;
         }
 
@@ -75,8 +74,7 @@ if (!function_exists('file_extension')) {
     {
         clearstatcache(true, $file_name);
 
-        if (!file_exists($file_name))
-            exit("File '" . $file_name . "' not found or isn't a file");
+        if (!file_exists($file_name)) exit("File '" . $file_name . "' not found or isn't a file");
 
         $info = pathinfo($file_name);
         $info = $info['extension'];

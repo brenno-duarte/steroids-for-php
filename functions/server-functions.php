@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 if (!function_exists('is_https')) {
     /**
@@ -23,8 +21,8 @@ if (!function_exists('is_ajax')) {
     function is_ajax(): bool
     {
         if (
-            isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
+            isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
         ) {
             return true;
         }
@@ -58,7 +56,9 @@ if (!function_exists('get_current_url')) {
 
         if (!isset($_SERVER['REQUEST_URI'])) {
             $url .= substr($_SERVER['PHP_SELF'], 1);
+
             if (isset($_SERVER['QUERY_STRING'])) $url .= '?' . $_SERVER['QUERY_STRING'];
+
             return $url;
         }
 
@@ -78,7 +78,9 @@ if (!function_exists('get_client_ip')) {
     function get_client_ip(?bool $header_containing_ip_address = null): string
     {
         if (!empty($header_containing_ip_address)) {
-            return isset($_SERVER[$header_containing_ip_address]) ? trim($_SERVER[$header_containing_ip_address]) : false;
+            return isset($_SERVER[$header_containing_ip_address])
+                ? trim($_SERVER[$header_containing_ip_address])
+                : false;
         }
 
         $knowIPkeys = [
@@ -97,12 +99,17 @@ if (!function_exists('get_client_ip')) {
             }
             foreach (explode(',', $_SERVER[$key]) as $ip) {
                 $ip = trim($ip);
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                
+                if (filter_var(
+                    $ip, 
+                    FILTER_VALIDATE_IP, 
+                    FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false
+                ) {
                     return $ip;
                 }
             }
         }
 
-        return "";
+        return '';
     }
 }

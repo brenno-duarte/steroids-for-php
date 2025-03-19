@@ -259,3 +259,18 @@ if (!function_exists('str_shorten')) {
         return $string;
     }
 }
+
+if (!function_exists("str_icontains")) {
+    /**
+     * Determine if a string contains a given substring in case-insensitive
+     *
+     * @param string $haystack
+     * @param string $needle
+     * 
+     * @return bool
+     */
+    function str_icontains(string $haystack, string $needle): bool
+    {
+        return $needle !== '' && mb_stripos($haystack, $needle) !== false;
+    }
+}

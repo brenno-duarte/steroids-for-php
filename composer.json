@@ -17,6 +17,13 @@
         "jetbrains/phpstorm-stubs": "^2024.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.2"
+        "phpunit/phpunit": "^11.5"
+    },
+    "suggest": {
+        "ext-simdjson": "Provides faster json decoding through simdjson bindings for PHP",
+        "ext-stats": "Extension with routines for statistical computation",
+        "ext-var_representation": "A compact, more readable alternative to var_export",
+        "ext-xxtea": "XXTEA encryption algorithm extension for PHP",
+        "ext-yaml": "YAML-1.1 parser and emitter"
     }
 }
