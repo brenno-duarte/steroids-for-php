@@ -1,5 +1,3 @@
 docs/ export-ignore
-tests-arrays.php export-ignore
-tests-mb.php export-ignore
-tests-reflection.php export-ignore
+tests-somefunctions.php export-ignore
 README.md export-ignore

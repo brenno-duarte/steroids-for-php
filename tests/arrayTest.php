@@ -540,4 +540,26 @@ class ArrayTest extends TestCase
         
         $this->assertEquals($expect, array_push_recursive($array1, $array2));
     }
+
+    public function testArrayMapRecursive()
+    {
+        $inputArray = [
+            1, 
+            2, 
+            [3, 4, [5, 6]], 
+            7
+        ];
+
+        $result = array_map_recursive(function($value) {
+            return $value * 2;
+        }, $inputArray);
+
+        $this->assertEquals([2, 4, [6, 8, [10, 12]], 14], $result);
+    }
+
+    public function testArrayEncodeUTF8()
+    {
+        $arr_unicode = ["FirSt" => 1, "ZażóŁć gęŚlą jaŹń" => ["yağ" => "Oil", "şekER" => "sugar"]];
+        $this->assertEquals($arr_unicode, array_encode_utf8($arr_unicode));
+    }
 }

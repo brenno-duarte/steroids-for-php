@@ -34,3 +34,15 @@ to_int(mixed $value)
 to_float(mixed $value)
 to_string(mixed $value)
 ```
+
+- Determines whether any element of the iterable satisfies the predicate. [iterator_any](https://wiki.php.net/rfc/any_all_on_iterable)
+
+```php
+iterator_any(iterable $input, ?callable $callback = null): bool
+```
+
+- Determines whether all elements of the iterable satisfy the predicate. [iterator_all](https://wiki.php.net/rfc/any_all_on_iterable)
+
+```php
+iterator_all(iterable $input, ?callable $callback = null): bool
+```

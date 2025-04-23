@@ -32,3 +32,9 @@ file_extension(string $file_name): string
 ```php
 file_exists_without_cache(string $file_path): bool
 ```
+
+- Check if directory is empty
+
+```php
+is_dir_empty(string $dir): bool
+```

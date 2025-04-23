@@ -59,6 +59,22 @@ class RejectedRFCTest extends TestCase
             [false, 'boolean false'],
         ];
     }
+
+    public function testIteratorAllAny()
+    {
+        $this->assertFalse(iterator_any([false]));
+        $this->assertTrue(iterator_any([true]));
+        $this->assertFalse(iterator_any([0]));
+        $this->assertTrue(iterator_any([1]));
+        $this->assertFalse(iterator_any([0], fn($x) => $x));
+        $this->assertTrue(iterator_any([1], fn($x) => $x));
+        
+        $this->assertTrue(iterator_all([true, true, true], fn($x) => $x));
+        $this->assertTrue(iterator_all([1, 2, 3], fn($x) => $x));
+        $this->assertFalse(iterator_all([true, true, false], fn($x) => $x));
+        $this->assertFalse(iterator_all([1, 2, 0], fn($x) => $x));
+        $this->assertFalse(iterator_all([1, 2, 0]));
+    }
 }
 
 final class FakeClass

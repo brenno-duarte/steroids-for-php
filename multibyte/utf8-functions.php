@@ -14,11 +14,9 @@ if (!function_exists('is_valid_utf8')) {
     {
         $cur_encoding = mb_detect_encoding($value);
 
-        if ($cur_encoding == "UTF-8" && mb_check_encoding($value, "UTF-8")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (
+            $cur_encoding == "UTF-8" && mb_check_encoding($value, "UTF-8")
+        ) ? true : false;
     }
 }
 
@@ -31,13 +29,13 @@ if (!function_exists('array_encode_utf8')) {
      *
      * @return array
      */
-    function array_encode_utf8(array $array, string $source_encoding): array
+    function array_encode_utf8(array $array, string $source_encoding = 'ISO-8859-1'): array
     {
         array_walk_recursive(
             $array,
             function ($array) use ($source_encoding) {
                 $array = mb_convert_encoding(
-                    $array,
+                    (string)$array,
                     'UTF-8',
                     $source_encoding
                 );
@@ -63,13 +61,11 @@ if (!function_exists('surrogate_pair_to_code_point')) {
      */
     function surrogate_pair_to_code_point(int $high, int $low): int
     {
-        if ($high < 0xd800 || 0xdbff < $high) {
+        if ($high < 0xd800 || 0xdbff < $high)
             throw new \OutOfRangeException("High surrogate not within range 0xD800..0xDBFF.");
-        }
 
-        if ($low < 0xdc00 || 0xdfff < $low) {
+        if ($low < 0xdc00 || 0xdfff < $low)
             throw new \OutOfRangeException("Low surrogate not within range 0xDC00..0xDFFF.");
-        }
 
         return 0x10000 + (($high & 0x03ff) << 10) + ($low & 0x03ff);
     }
@@ -108,11 +104,11 @@ if (!function_exists('utf8_find_invalid_byte_sequence')) {
             /x
 REGEX;
 
-        if (!\preg_match($regex, $string, $matches, \PREG_OFFSET_CAPTURE)) {
+        if (!preg_match($regex, $string, $matches, PREG_OFFSET_CAPTURE)) {
             return null;
         }
 
-        return \strlen($matches[0][0]) + $matches[0][1];
+        return strlen($matches[0][0]) + $matches[0][1];
     }
 }
 
@@ -132,6 +128,7 @@ if (!function_exists('utf8_get_invalid_byte_sequence')) {
         $sequence = $string[$position];
 
         $ord = \ord($sequence);
+        
         if (!(($ord >> 5) ^ 0b110)) {
             $expect = 1;
         } elseif (!(($ord >> 4) ^ 0b1110)) {

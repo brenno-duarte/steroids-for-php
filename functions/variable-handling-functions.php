@@ -266,3 +266,16 @@ if (!function_exists("get_declared_enums")) {
         return $enums;
     }
 }
+
+if (!function_exists('println')) {
+    /**
+     * Prints $data followed by a unix newline
+     * 
+     * @return int the number of bytes that were successfully printed to stdout.
+     * @see https://wiki.php.net/rfc/println
+     */
+    function println(string $data = ''): int
+    {
+        return printf("%s\n", $data);
+    }
+}

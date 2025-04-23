@@ -35,3 +35,9 @@ html_dump(mixed $var, ?string $var_name = null, ?string $indent = null, ?string 
 ```php
 get_declared_enums(): array
 ```
+
+- Prints $data followed by a unix newline
+
+```php
+println(string $data = ''): int
+```

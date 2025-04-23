@@ -396,7 +396,13 @@ if (!function_exists('mb_preg_match_all')) {
      */
     function mb_preg_match_all(string $pattern, string $subject, &$matches, int $flags = 0, int $offset = 0): int|false
     {
-        $out = preg_match_all($pattern, $subject, $matches, $flags, $offset);
+        $out = preg_match_all(
+            $pattern, 
+            $subject, 
+            $matches, 
+            $flags, 
+            $offset
+        );
 
         if ($flags & PREG_OFFSET_CAPTURE && is_array($matches) && count($matches) > 0) {
             foreach ($matches[0] as &$match) {

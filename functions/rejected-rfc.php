@@ -163,6 +163,14 @@ if (!function_exists("to_string")) {
 }
 
 if (!function_exists("var_info")) {
+    /**
+     * Helps developers to create better debug, error, and exception messages in their software
+     *
+     * @param mixed $var
+     * 
+     * @return string
+     * @see https://wiki.php.net/rfc/var_info
+     */
     function var_info(mixed $var): string
     {
         if (is_object($var) || $var instanceof \__PHP_Incomplete_Class) {
@@ -222,5 +230,54 @@ if (!function_exists("var_info")) {
         } else {
             return 'unknown type';
         }
+    }
+}
+
+if (!function_exists('iterator_any')) {
+    /**
+     * Determines whether any element of the iterable satisfies the predicate.
+     *
+     *
+     * If the value returned by the callback is truthy
+     * (e.g. true, non-zero number, non-empty array, truthy object, etc.),
+     * this is treated as satisfying the predicate.
+     *
+     * @param iterable $input
+     * @param null|callable(mixed):mixed $callback
+     * @return bool
+     * 
+     * @see https://wiki.php.net/rfc/any_all_on_iterable
+     */
+    function iterator_any(iterable $input, ?callable $callback = null): bool
+    {
+        foreach ($input as $v) {
+            if ($callback !== null ? $callback($v) : $v) return true;
+        }
+        
+        return false;
+    }
+}
+
+if (!function_exists('iterator_all')) {
+    /**
+     * Determines whether all elements of the iterable satisfy the predicate.
+     *
+     * If the value returned by the callback is truthy
+     * (e.g. true, non-zero number, non-empty array, truthy object, etc.),
+     * this is treated as satisfying the predicate.
+     *
+     * @param iterable $input
+     * @param null|callable(mixed):mixed $callback
+     * @return bool
+     * 
+     * @see https://wiki.php.net/rfc/any_all_on_iterable
+     */
+    function iterator_all(iterable $input, ?callable $callback = null): bool
+    {
+        foreach ($input as $v) {
+            if (!($callback !== null ? $callback($v) : $v)) return false;
+        }
+        
+        return true;
     }
 }
