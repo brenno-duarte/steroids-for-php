@@ -599,3 +599,34 @@ if (!function_exists('mb_chunk_split')) {
         return $str;
     }
 }
+
+if (!function_exists('mb_parse_url')) {
+    /**
+     * UTF-8 aware parse_url() replacement.
+     * 
+     * @param string $url
+     * 
+     * @return array
+     */
+    function mb_parse_url(string $url): array
+    {
+        $enc_url = preg_replace_callback(
+            '%[^:/@?&=#]+%usD',
+            function ($matches) {
+                return urlencode($matches[0]);
+            },
+            $url
+        );
+        
+        $parts = parse_url($enc_url);
+        
+        if ($parts === false)
+            throw new InvalidArgumentException('Malformed URL: ' . $url);
+        
+        foreach ($parts as $name => $value) {
+            $parts[$name] = urldecode((string)$value);
+        }
+        
+        return $parts;
+    }
+}

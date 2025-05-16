@@ -5,10 +5,14 @@ require_once 'vendor/autoload.php';
 /* var_dump(is_valid_utf8("ZażóŁć gęŚlą jaŹń"));
 exit; */
 
+/* $url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+var_dump(mb_parse_url($url));
+exit; */
+
 $var = [];
 
-//var_dump(isset($var['foo']) ? "Exists" : "Not exists");
-//var_dump(ifsetor($var['foo'], "Not exists"));
+// var_dump(isset($var['foo']) ? "Exists" : "Not exists");
+// var_dump(ifsetor($var['foo'], "Not exists"));
 
 /* echo wrap_implode(['line','by','line'], '<b>', '</b>', '<br>  ');
 exit;
@@ -20,7 +24,7 @@ $implode = [
   7 => 'Foo',
 ]; */
 
-//echo mapped_implode(', ', $implode, ' is ');
+// echo mapped_implode(', ', $implode, ' is ');
 
 /* $array_implode = ['a' => 1, 'b' => 2];
 $str =  implode_recursive($array_implode);
@@ -38,7 +42,7 @@ var_dump($str);
 $str =  implode_recursive(['" ', '="'], $iterator);
 var_dump($str); */
 
-/* $string = 'This is a some string';
+$string = 'This is a some string';
 $search = 'a';
 $found = strpos_recursive($string, $search);
 
@@ -50,21 +54,10 @@ if ($found) {
   echo '"' . $search . '" not found in "' . $string . '"';
 }
 
-exit; */
+exit;
 
-
-class Name
-{
-  public $first;
-  public $last;
-  public function fullname()
-  {
-    return $this->first . " " . $this->last;
-  }
-}
-$json = '{"first":"John","last":"Smith"}';
-
-$infull = load_object_json((new Name), $json);
-//echo $infull->fullname();
-
-print_r(bytes2human("17179869184"));
+/* if (is_clean_file(__DIR__ . '/README.md')) {
+  echo 'Bad codes this is not image';
+} else {
+  echo 'This is a real image.';
+} */

@@ -45,9 +45,9 @@ if (!function_exists('get_current_url')) {
 
         if (isset($_SERVER['PHP_AUTH_USER'])) {
             $url .= $_SERVER['PHP_AUTH_USER'];
-            if (isset($_SERVER['PHP_AUTH_PW'])) {
-                $url .= ':' . $_SERVER['PHP_AUTH_PW'];
-            }
+            
+            if (isset($_SERVER['PHP_AUTH_PW'])) $url .= ':' . $_SERVER['PHP_AUTH_PW'];
+
             $url .= '@';
         }
 

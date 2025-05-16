@@ -11,9 +11,7 @@ if (!function_exists('array_flatten')) {
     function array_flatten(array $array, string $glue = '.'): array
     {
         foreach ($array as $key => &$value) {
-            if (!is_associative_array($value)) {
-                continue;
-            }
+            if (!is_associative_array($value)) continue;
 
             unset($array[$key]);
             $value = array_flatten($value, $glue);
@@ -43,15 +41,11 @@ if (!function_exists('array_delete')) {
     {
         if ($strict) {
             foreach ($array as $key => $item) {
-                if ($item === $value) {
-                    unset($array[$key]);
-                }
+                if ($item === $value) unset($array[$key]);
             }
         } else {
             foreach ($array as $key => $item) {
-                if ($item == $value) {
-                    unset($array[$key]);
-                }
+                if ($item == $value) unset($array[$key]);
             }
         }
 
@@ -73,15 +67,11 @@ if (!function_exists('array_key_delete')) {
     {
         if ($strict) {
             foreach ($array as $array_key => $item) {
-                if ($array_key === $key) {
-                    unset($array[$key]);
-                }
+                if ($array_key === $key) unset($array[$key]);
             }
         } else {
             foreach ($array as $array_key => $item) {
-                if ($array_key == $key) {
-                    unset($array[$key]);
-                }
+                if ($array_key == $key) unset($array[$key]);
             }
         }
 
@@ -104,11 +94,11 @@ if (!function_exists('array_find_key')) {
     function array_find_key(array $array, callable $callback, int $flag = 0): mixed
     {
         foreach ($array as $key => $value) {
-            $args = $flag === ARRAY_FILTER_USE_BOTH ? [$value, $key] : ($flag === ARRAY_FILTER_USE_KEY ? [$key] : [$value]);
+            $args = $flag === ARRAY_FILTER_USE_BOTH ? 
+                [$value, $key] : 
+                ($flag === ARRAY_FILTER_USE_KEY ? [$key] : [$value]);
 
-            if ($callback(...$args)) {
-                return $key;
-            }
+            if ($callback(...$args)) return $key;
         }
 
         return false;
@@ -117,25 +107,32 @@ if (!function_exists('array_find_key')) {
 
 if (!function_exists('array_group')) {
     /**
-     * Flip an array and group the elements by value
+     * This function takes an array and a function and returns an array that contains arrays - groups of consecutive elements.
      *
      * @param array $array
+     * @param callable $callback
      * 
      * @return array
+     * @see https://wiki.php.net/rfc/array_group
      */
-    function array_group(array $array): array
+    function array_group(array $array, callable $callback): array
     {
-        $outArr = [];
+        $groups = [];
+        $group = [];
+        $prev = null;
 
-        array_walk($array, function ($value, $key) use (&$outArr) {
-            if (!isset($outArr[$value]) || !is_array($outArr[$value])) {
-                $outArr[$value] = [];
+        foreach ($array as $value) {
+            if ($group && !$callback($prev, $value)) {
+                $groups[] = $group;
+                $group = [];
             }
 
-            $outArr[$value][] = $key;
-        });
+            $group[] = $value;
+            $prev = $value;
+        }
 
-        return $outArr;
+        if ($group) $groups[] = $group;
+        return $groups;
     }
 }
 
@@ -196,9 +193,7 @@ if (!function_exists('array_preg_diff')) {
     function array_preg_diff(array $needle, string $pattern): array
     {
         foreach ($needle as $i => $v) {
-            if (preg_match($pattern, $v)) {
-                unset($needle[$i]);
-            }
+            if (preg_match($pattern, $v)) unset($needle[$i]);
         }
 
         return $needle;

@@ -119,3 +119,9 @@ mb_vsprintf(string $format, array $argv, ?string $encoding = null): string
 ```php
 mb_chunk_split(string $str, int $length = 76, string $separator = "\r\n"): string
 ```
+
+- UTF-8 aware parse_url() replacement
+
+```php
+mb_parse_url(string $url): array
+```

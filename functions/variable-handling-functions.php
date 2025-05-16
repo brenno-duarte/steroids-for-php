@@ -88,8 +88,13 @@ if (!function_exists('var_log')) {
      * 
      * @return mixed
      */
-    function var_log(mixed $value, string $var_name = '', string $reference = '', string $method = '=', bool $sub = false)
-    {
+    function var_log(
+        mixed $value, 
+        string $var_name = '', 
+        string $reference = '', 
+        string $method = '=', 
+        bool $sub = false
+    ): mixed {
         static $output;
         static $depth;
 
@@ -165,6 +170,7 @@ if (!function_exists('var_log')) {
         --$depth;
 
         if ($sub == false) return $output;
+        return null;
     }
 }
 
@@ -183,8 +189,12 @@ if (!function_exists('html_dump')) {
      * 
      * @return void
      */
-    function html_dump(mixed $var, ?string $var_name = null, ?string $indent = null, ?string $reference = null): void
-    {
+    function html_dump(
+        mixed $var, 
+        ?string $var_name = null, 
+        ?string $indent = null, 
+        ?string $reference = null
+    ): void {
         global $argv;
 
         if (isset($argv))

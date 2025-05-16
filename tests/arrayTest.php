@@ -224,16 +224,14 @@ class ArrayTest extends TestCase
 
     public function testArrayGroup()
     {
-        $users_countries = [
-            'username1' => 'US',
-            'user2' => 'US',
-            'newuser' => 'GB'
-        ];
-
+        $array = array_group([1,2,2,3,1,2,0,4,5,2], fn ($a, $b) => $a <= $b);
+        
         $this->assertEquals([
-            "US" => ["username1", "user2"],
-            "GB" => ["newuser"]
-        ], array_group($users_countries));
+            [1, 2, 2, 3],
+            [1, 2],
+            [0, 4, 5],
+            [2]
+        ], $array);
     }
 
     public function testArrayAdd()

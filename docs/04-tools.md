@@ -65,3 +65,9 @@ number_days_in_month(int $month = 0, int $year = 0): int
 ```php
 bytes2human(int $size, int $precision = 2): string
 ```
+
+- Check file from bad codes. Some times a Hacker use a php file or shell as a image to hack your website. So if you try to use move_uploaded_file() function as in example to allow for users to upload files, you must check if this file contains a bad codes or not so we use this function
+
+```php
+is_clean_file(string $file): bool
+```

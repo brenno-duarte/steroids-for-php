@@ -105,15 +105,25 @@ if (!function_exists('strpos_recursive')) {
      * 
      * @return string|array
      */
-    function strpos_recursive(string $haystack, string $needle, int $offset = 0, array $results = []): string|array
-    {
+    function strpos_recursive(
+        string $haystack, 
+        string $needle, 
+        int $offset = 0, 
+        array $results = []
+    ): string|array {
         $offset = strpos($haystack, $needle, $offset);
 
         if ($offset === false) {
             return $results;
         } else {
             $results[] = $offset;
-            return strpos_recursive($haystack, $needle, ($offset + 1), $results);
+            
+            return strpos_recursive(
+                $haystack, 
+                $needle, 
+                ($offset + 1), 
+                $results
+            );
         }
     }
 }
@@ -236,9 +246,7 @@ if (!function_exists('str_shorten')) {
         $ellipsis = '';
         $maxLength = max($maxLength, 0);
 
-        if (mb_strlen($string) <= $maxLength) {
-            return $string;
-        }
+        if (mb_strlen($string) <= $maxLength) return $string;
 
         if ($addEllipsis) {
             $ellipsis = mb_substr('...', 0, $maxLength);
@@ -249,12 +257,14 @@ if (!function_exists('str_shorten')) {
         $string = mb_substr($string, 0, $maxLength);
 
         if ($wordsafe) {
-            $string = preg_replace('/\s+?(\S+)?$/', '', mb_substr($string, 0, $maxLength));
+            $string = preg_replace(
+                '/\s+?(\S+)?$/', 
+                '', 
+                mb_substr($string, 0, $maxLength)
+            );
         }
 
-        if ($addEllipsis) {
-            $string .= $ellipsis;
-        }
+        if ($addEllipsis) $string .= $ellipsis;
 
         return $string;
     }

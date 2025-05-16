@@ -88,7 +88,10 @@ if (!function_exists('is_stringable')) {
      */
     function is_stringable(mixed $var): bool
     {
-        return (is_scalar($var) && !is_bool($var)) || (is_object($var) && method_exists($var, '__toString'));
+        return 
+            (is_scalar($var) && !is_bool($var)) || 
+            (is_object($var) && 
+            method_exists($var, '__toString'));
     }
 }
 
@@ -102,7 +105,10 @@ if (!function_exists('objectify')) {
     function objectify(mixed $var): mixed
     {
         $i = func_num_args() > 1 ? func_get_arg(1) : 100;
-        if ($i <= 0) throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+
+        if ($i <= 0)
+            throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+        
         if (!is_array($var) && !is_object($var)) return $var;
         if (is_associative_array($var)) $var = (object)$var;
 
@@ -124,7 +130,10 @@ if (!function_exists('arrayify')) {
     function arrayify(mixed $var): mixed
     {
         $i = func_num_args() > 1 ? func_get_arg(1) : 100;
-        if ($i <= 0) throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+
+        if ($i <= 0)
+            throw new \OverflowException("Maximum recursion depth reached. Possible circular reference.");
+        
         if (!is_array($var) && !is_object($var)) return $var;
         if ($var instanceof \stdClass) $var = (array)$var;
 

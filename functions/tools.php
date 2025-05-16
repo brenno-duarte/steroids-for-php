@@ -1,13 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * Load an object with data in json format
  *
  * @param mixed $object
  * @param string $json
- * 
+ *
  * @return mixed
  */
 function load_object_json(mixed $object, string $json): mixed
@@ -16,7 +14,7 @@ function load_object_json(mixed $object, string $json): mixed
     $prop = get_object_vars($dcod);
 
     foreach ($prop as $key => $lock) {
-        if (property_exists($object,  $key)) {
+        if (property_exists($object, $key)) {
             if (is_object($dcod->$key)) {
                 load_object_json($object->$key, json_encode($dcod->$key));
             } else {
@@ -28,21 +26,24 @@ function load_object_json(mixed $object, string $json): mixed
     return $object;
 }
 
-/**
- * Return period in hours, minutes or seconds using microtime function
- *
- * @param float $endtime
- * @param float $starttime
- * 
- * @return mixed
- */
-function microtime_period(float $endtime, float $starttime): mixed
-{
-    $duration = $endtime - $starttime;
-    $hours = (int) ($duration / 60 / 60);
-    $minutes = (int) ($duration / 60) - $hours * 60;
-    $seconds = (int) $duration - $hours * 60 * 60 - $minutes * 60;
-    return ($hours == 0 ? "00" : $hours) . ":" . ($minutes == 0 ? "00" : ($minutes < 10 ? "0" . $minutes : $minutes)) . ":" . ($seconds == 0 ? "00" : ($seconds < 10 ? "0" . $seconds : $seconds));
+if (!function_exists('microtime_period')) {
+    /**
+     * Return period in hours, minutes or seconds using microtime function
+     *
+     * @param float $endtime
+     * @param float $starttime
+     *
+     * @return mixed
+     */
+    function microtime_period(float $endtime, float $starttime): mixed
+    {
+        $duration = $endtime - $starttime;
+        $hours = (int) ($duration / 60 / 60);
+        $minutes = (int) ($duration / 60) - $hours * 60;
+        $seconds = (int) $duration - $hours * 60 * 60 - $minutes * 60;
+
+        return ($hours == 0 ? '00' : $hours) . ':' . ($minutes == 0 ? '00' : ($minutes < 10 ? '0' . $minutes : $minutes)) . ':' . ($seconds == 0 ? '00' : ($seconds < 10 ? '0' . $seconds : $seconds));
+    }
 }
 
 if (!function_exists('hex2rgb')) {
@@ -89,11 +90,12 @@ if (!function_exists('rgb2hex')) {
             if (preg_match_all('/\(([^\)]*)\)/', $r, $matches) && isset($matches[1][0])) {
                 list($r, $g, $b) = explode(',', $matches[1][0]);
             } else {
-                return "";
+                return '';
             }
         }
 
         $result = '';
+
         foreach ([$r, $g, $b] as $c) {
             $hex = base_convert($c, 10, 16);
             $result .= ($c < 16) ? ('0' . $hex) : $hex;
@@ -110,7 +112,7 @@ if (!function_exists('number_to_word')) {
      * @param int $number number to convert to word
      *
      * @return string converted string
-     * @throws \Exception
+     * @throws Exception
      */
     function number_to_word(int $number): string
     {
@@ -121,51 +123,53 @@ if (!function_exists('number_to_word')) {
         $decimal = ' point ';
         $fraction = null;
         $dictionary = [
-            0                   => 'zero',
-            1                   => 'one',
-            2                   => 'two',
-            3                   => 'three',
-            4                   => 'four',
-            5                   => 'five',
-            6                   => 'six',
-            7                   => 'seven',
-            8                   => 'eight',
-            9                   => 'nine',
-            10                  => 'ten',
-            11                  => 'eleven',
-            12                  => 'twelve',
-            13                  => 'thirteen',
-            14                  => 'fourteen',
-            15                  => 'fifteen',
-            16                  => 'sixteen',
-            17                  => 'seventeen',
-            18                  => 'eighteen',
-            19                  => 'nineteen',
-            20                  => 'twenty',
-            30                  => 'thirty',
-            40                  => 'fourty',
-            50                  => 'fifty',
-            60                  => 'sixty',
-            70                  => 'seventy',
-            80                  => 'eighty',
-            90                  => 'ninety',
-            100                 => 'hundred',
-            1000                => 'thousand',
-            1000000             => 'million',
-            1000000000          => 'billion',
-            1000000000000       => 'trillion',
-            1000000000000000    => 'quadrillion',
+            0 => 'zero',
+            1 => 'one',
+            2 => 'two',
+            3 => 'three',
+            4 => 'four',
+            5 => 'five',
+            6 => 'six',
+            7 => 'seven',
+            8 => 'eight',
+            9 => 'nine',
+            10 => 'ten',
+            11 => 'eleven',
+            12 => 'twelve',
+            13 => 'thirteen',
+            14 => 'fourteen',
+            15 => 'fifteen',
+            16 => 'sixteen',
+            17 => 'seventeen',
+            18 => 'eighteen',
+            19 => 'nineteen',
+            20 => 'twenty',
+            30 => 'thirty',
+            40 => 'fourty',
+            50 => 'fifty',
+            60 => 'sixty',
+            70 => 'seventy',
+            80 => 'eighty',
+            90 => 'ninety',
+            100 => 'hundred',
+            1000 => 'thousand',
+            1000000 => 'million',
+            1000000000 => 'billion',
+            1000000000000 => 'trillion',
+            1000000000000000 => 'quadrillion',
             1000000000000000000 => 'quintillion',
         ];
 
-        if (!is_numeric($number)) throw new \Exception('NaN');
+        if (!is_numeric($number)) throw new Exception('NaN');
 
         if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) {
-            throw new \Exception('numberToWord only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX);
+            throw new Exception('number_to_word only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX);
         }
 
         if ($number < 0) return $negative . number_to_word(abs($number));
-        if (strpos((string)$number, '.') !== false) list($number, $fraction) = explode('.', (string)$number);
+
+        if (strpos((string) $number, '.') !== false)
+            list($number, $fraction) = explode('.', (string) $number);
 
         switch (true) {
             case $number < 21:
@@ -177,9 +181,7 @@ if (!function_exists('number_to_word')) {
                 $units = $number % 10;
                 $string = $dictionary[$tens];
 
-                if ($units) {
-                    $string .= $hyphen . $dictionary[$units];
-                }
+                if ($units) $string .= $hyphen . $dictionary[$units];
 
                 break;
 
@@ -188,9 +190,7 @@ if (!function_exists('number_to_word')) {
                 $remainder = $number % 100;
                 $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
 
-                if ($remainder) {
-                    $string .= $conjunction . number_to_word($remainder);
-                }
+                if ($remainder) $string .= $conjunction . number_to_word($remainder);
 
                 break;
 
@@ -235,25 +235,26 @@ if (!function_exists('seconds_to_text')) {
     function seconds_to_text(int $seconds, bool $returnAsWords = false): string
     {
         $periods = [
-            'year'   => 3.156e+7,
-            'month'  => 2.63e+6,
-            'week'   => 604800,
-            'day'    => 86400,
-            'hour'   => 3600,
+            'year' => 3.156e7,
+            'month' => 2.63e6,
+            'week' => 604800,
+            'day' => 86400,
+            'hour' => 3600,
             'minute' => 60,
             'second' => 1,
         ];
 
         $parts = [];
+
         foreach ($periods as $name => $dur) {
             $div = floor($seconds / $dur);
 
             if ($div == 0) continue;
 
             if ($div == 1) {
-                $parts[] = ($returnAsWords ? number_to_word((int)$div) : $div) . ' ' . $name;
+                $parts[] = ($returnAsWords ? number_to_word((int) $div) : $div) . ' ' . $name;
             } else {
-                $parts[] = ($returnAsWords ? number_to_word((int)$div) : $div) . ' ' . $name . 's';
+                $parts[] = ($returnAsWords ? number_to_word((int) $div) : $div) . ' ' . $name . 's';
             }
 
             $seconds %= $dur;
@@ -261,6 +262,7 @@ if (!function_exists('seconds_to_text')) {
 
         $last = array_pop($parts);
         if (empty($parts)) return $last;
+
         return implode(', ', $parts) . ' and ' . $last;
     }
 }
@@ -306,18 +308,13 @@ if (!function_exists('number_days_in_month')) {
      */
     function number_days_in_month(int $month = 0, int $year = 0): int
     {
-        if ($month < 1 or $month > 12) {
-            return 0;
-        }
+        if ($month < 1 or $month > 12) return 0;
 
-        if (!is_numeric($year) or strlen((string)$year) != 4) {
+        if (!is_numeric($year) or strlen((string) $year) != 4)
             $year = date('Y');
-        }
 
         if ($month == 2) {
-            if ($year % 400 == 0 or ($year % 4 == 0 and $year % 100 != 0)) {
-                return 29;
-            }
+            if ($year % 400 == 0 or ($year % 4 == 0 and $year % 100 != 0)) return 29;
         }
 
         $days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -342,5 +339,49 @@ if (!function_exists('bytes2human')) {
         }
 
         return round($size, $precision) . ' ' . ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i];
+    }
+}
+
+if (!function_exists('is_clean_file')) {
+    /**
+     * Check file from bad codes.
+     * 
+     * Some times a Hacker use a php file or shell as a image to hack your website. 
+     * So if you try to use move_uploaded_file() function as in example to allow for users to upload files, you must check if this file contains a bad codes or not so we use this function
+     *
+     * @param string $file - file path
+     * @return bool
+     * 
+     * @author Yousef Ismaeil
+     */
+    function is_clean_file(string $file): bool
+    {
+        if (file_exists_without_cache($file)) {
+            $contents = file_get_contents($file);
+        } else {
+            exit($file . ' Not exists.');
+        }
+
+        if (preg_match('/(base64_|eval|system|shell_|exec|php_)/i', $contents)) {
+            return true;
+        } else if (preg_match('#&\#x([0-9a-f]+);#i', $contents)) {
+            return true;
+        } elseif (preg_match('#&\#([0-9]+);#i', $contents)) {
+            return true;
+        } elseif (preg_match("#([a-z]*)=([\`\'\"]*)script:#iU", $contents)) {
+            return true;
+        } elseif (preg_match("#([a-z]*)=([\`\'\"]*)javascript:#iU", $contents)) {
+            return true;
+        } elseif (preg_match("#([a-z]*)=([\'\"]*)vbscript:#iU", $contents)) {
+            return true;
+        } elseif (preg_match("#(<[^>]+)style=([\`\'\"]*).*expression\([^>]*>#iU", $contents)) {
+            return true;
+        } elseif (preg_match("#(<[^>]+)style=([\`\'\"]*).*behaviour\([^>]*>#iU", $contents)) {
+            return true;
+        } elseif (preg_match('#</*(applet|link|style|script|iframe|frame|frameset|html|body|title|div|p|form)[^>]*>#i', $contents)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
