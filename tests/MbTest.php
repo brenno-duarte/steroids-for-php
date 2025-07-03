@@ -39,6 +39,17 @@ class MbTest extends TestCase
         $this->assertEquals("Helo, wrd!", mb_count_chars('Hello, world!', 3));
         $this->assertEquals(0, mb_strcasecmp('Daníel', 'DANÍEL'));
         $this->assertEquals("éggxs", mb_substr_replace('éggs', 'x', -1));
+
+        $this->assertEquals([
+            'scheme' => 'http',
+            'host' => 'hostname',
+            'port' => '9090',
+            'user' => 'username',
+            'pass' => 'password',
+            'path' => '/path',
+            'query' => 'arg=value',
+            'fragment' => 'anchor'
+        ], mb_parse_url('http://username:password@hostname:9090/path?arg=value#anchor'));
         
     }
 }

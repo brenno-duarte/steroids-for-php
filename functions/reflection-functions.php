@@ -42,8 +42,10 @@ if (!function_exists('reflection_get_property')) {
     function reflection_get_property(string|object $class, string $property): mixed
     {
         $reflection = new \ReflectionClass($class);
-        $name = $reflection->getProperty($property);
-        return $name->getValue(new $class);
+        
+        return ($reflection->getProperty($property)->isStatic()) ?
+            $reflection->getProperty($property)->getValue() :
+            $reflection->getProperty($property)->getValue(new $class);
     }
 }
 

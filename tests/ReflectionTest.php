@@ -24,12 +24,18 @@ class ReflectionTest extends TestCase
     {
         $class = new class {
             private array $property1 = ['value1', 'value2'];
+            private static $property2 = 'this is a static property';
         };
 
         $this->assertEquals([
             'value1',
             'value2'
         ], reflection_get_property($class, 'property1'));
+
+        $this->assertEquals(
+            'this is a static property', 
+            reflection_get_property($class, 'property2')
+        );
     }
 
     public function testNewInstance()

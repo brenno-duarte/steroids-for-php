@@ -5,10 +5,6 @@ require_once 'vendor/autoload.php';
 /* var_dump(is_valid_utf8("ZażóŁć gęŚlą jaŹń"));
 exit; */
 
-/* $url = 'http://username:password@hostname:9090/path?arg=value#anchor';
-var_dump(mb_parse_url($url));
-exit; */
-
 $var = [];
 
 // var_dump(isset($var['foo']) ? "Exists" : "Not exists");
